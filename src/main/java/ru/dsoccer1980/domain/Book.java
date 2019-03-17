@@ -28,4 +28,14 @@ public class Book {
     public Genre getGenre() {
         return genre;
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", author=" + author +
+                ", genre=" + genre +
+                '}';
+    }
 }

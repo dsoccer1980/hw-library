@@ -10,4 +10,6 @@ public interface AuthorDao {
 
     List<Author> getAll();
 
+    void deleteById(int id);
+
 }
