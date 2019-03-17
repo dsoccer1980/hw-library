@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS Author;
+
+CREATE TABLE Author(
+  id INT PRIMARY KEY ,
+  name VARCHAR(255)
+)
