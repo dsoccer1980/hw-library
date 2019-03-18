@@ -1,5 +1,6 @@
 package ru.dsoccer1980.dao;
 
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
 import ru.dsoccer1980.domain.Genre;
@@ -7,7 +8,6 @@ import ru.dsoccer1980.domain.Genre;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class GenreDaoJdbc implements GenreDao {
@@ -20,9 +20,9 @@ public class GenreDaoJdbc implements GenreDao {
 
     @Override
     public void insert(Genre genre) {
-        Map<String, Object> params = new ConcurrentHashMap<>();
-        params.put("id", genre.getId());
-        params.put("name", genre.getName());
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", genre.getId());
+        params.addValue("name", genre.getName());
 
         jdbcOperations.update("INSERT INTO Genre(id, name) VALUES(:id,:name)", params);
     }
