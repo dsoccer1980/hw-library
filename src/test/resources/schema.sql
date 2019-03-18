@@ -1,0 +1,22 @@
+DROP TABLE IF EXISTS Author;
+DROP TABLE IF EXISTS Genre;
+DROP TABLE IF EXISTS Book;
+
+CREATE TABLE Author(
+  id INT PRIMARY KEY ,
+  name VARCHAR(255)
+);
+
+CREATE TABLE Genre(
+  id INT PRIMARY KEY ,
+  name VARCHAR(255)
+);
+
+CREATE TABLE Book (
+  id INT PRIMARY KEY ,
+  name VARCHAR(255) ,
+  author_id INT,
+  genre_id INT,
+  FOREIGN KEY(author_id) REFERENCES Author(id),
+  FOREIGN KEY(genre_id) REFERENCES Genre(id)
+)
