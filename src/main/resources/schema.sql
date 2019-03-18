@@ -17,6 +17,6 @@ CREATE TABLE Book (
   name VARCHAR(255) ,
   author_id INT,
   genre_id INT,
-  FOREIGN KEY(author_id) REFERENCES Author(id),
-  FOREIGN KEY(genre_id) REFERENCES Genre(id)
+  FOREIGN KEY(author_id) REFERENCES Author(id) ON DELETE CASCADE,
+  FOREIGN KEY(genre_id) REFERENCES Genre(id) ON DELETE CASCADE
 )
