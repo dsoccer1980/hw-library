@@ -1,6 +1,5 @@
 package ru.dsoccer1980.dao;
 
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -11,53 +10,52 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.dsoccer1980.domain.Author;
-
+import ru.dsoccer1980.domain.Genre;
 
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Sql(scripts = "classpath:data-test.sql", config = @SqlConfig(encoding = "UTF-8"))
 @ActiveProfiles("test")
-public class AuthorDaoImplTest {
+public class GenreDaoJdbcTest {
 
     @Autowired
-    private AuthorDao authorDao;
+    private GenreDao genreDao;
 
     @Test
     void getAll() {
-        Author author1 = new Author(1, "Стругацкий");
-        Author author2 = new Author(2, "Уэллс");
-        Author author3 = new Author(3, "Пушкин");
+        Genre genre1 = new Genre(10, "Фантастика");
+        Genre genre2 = new Genre(11, "Классика");
 
-        assertThat(authorDao.getAll().toString()).isEqualTo(Arrays.asList(author1, author2, author3).toString());
+        assertThat(genreDao.getAll().toString()).isEqualTo(Arrays.asList(genre1, genre2).toString());
     }
 
     @Test
     void getById() {
-        assertThat(authorDao.getById(2).getId()).isEqualTo(2);
+        assertThat(genreDao.getById(10).getId()).isEqualTo(10);
     }
 
     @Test
     void getByWrongId() {
-        assertThrows(EmptyResultDataAccessException.class, () -> authorDao.getById(4));
+        assertThrows(EmptyResultDataAccessException.class, () -> genreDao.getById(12));
     }
 
     @Test
     void insert() {
-        authorDao.insert(new Author(4, "Новый автор"));
-        assertThat(authorDao.getById(4).getId()).isEqualTo(4);
-        assertThat(authorDao.getAll().size()).isEqualTo(4);
+        genreDao.insert(new Genre(3, "Новый жанр"));
+        assertThat(genreDao.getById(3).getId()).isEqualTo(3);
+        assertThat(genreDao.getAll().size()).isEqualTo(3);
     }
 
     @Test
     void deleteById() {
-        authorDao.deleteById(2);
-        assertThat(authorDao.getAll().size()).isEqualTo(2);
+        genreDao.deleteById(10);
+        assertThat(genreDao.getAll().size()).isEqualTo(1);
     }
 
     @Test
