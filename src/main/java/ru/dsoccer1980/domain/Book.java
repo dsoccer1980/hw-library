@@ -3,14 +3,14 @@ package ru.dsoccer1980.domain;
 public class Book {
     private int id;
     private String name;
-    private int author_id;
-    private int genre_id;
+    private Author author;
+    private Genre genre;
 
-    public Book(int id, String name, int author_id, int genre_id) {
+    public Book(int id, String name, Author author, Genre genre) {
         this.id = id;
         this.name = name;
-        this.author_id = author_id;
-        this.genre_id = genre_id;
+        this.author = author;
+        this.genre = genre;
     }
 
     public int getId() {
@@ -21,12 +21,12 @@ public class Book {
         return name;
     }
 
-    public int getAuthor_id() {
-        return author_id;
+    public Author getAuthor() {
+        return author;
     }
 
-    public int getGenre_id() {
-        return genre_id;
+    public Genre getGenre() {
+        return genre;
     }
 
     @Override
@@ -34,8 +34,8 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", author_id=" + author_id +
-                ", genre_id=" + genre_id +
+                ", author=" + author +
+                ", genre=" + genre +
                 '}';
     }
 }
