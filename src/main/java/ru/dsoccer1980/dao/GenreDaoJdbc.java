@@ -28,6 +28,13 @@ public class GenreDaoJdbc implements GenreDao {
     }
 
     @Override
+    public Genre getById(int id) {
+        Map<String, Object> params = Collections.singletonMap("id", id);
+        return jdbcOperations.queryForObject("SELECT * FROM Genre WHERE id=:id", params,
+                (rs, i) -> new Genre(rs.getInt("id"), rs.getString("name")));
+    }
+
+    @Override
     public List<Genre> getAll() {
         return jdbcOperations.query("SELECT * FROM Genre", (rs, i) -> new Genre(rs.getInt("id"), rs.getString("name")));
     }

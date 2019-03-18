@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface BookDao {
 
+    void insert(Book book);
+
     List<Book> getAll();
 }

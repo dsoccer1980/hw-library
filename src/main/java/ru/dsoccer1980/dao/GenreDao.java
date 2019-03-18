@@ -8,6 +8,8 @@ public interface GenreDao {
 
     void insert(Genre genre);
 
+    Genre getById(int id);
+
     List<Genre> getAll();
 
     void deleteById(int id);
