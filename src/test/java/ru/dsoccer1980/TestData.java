@@ -16,4 +16,5 @@ public class TestData {
     public static final Book BOOK1 = new Book(100, "Трудно быть Богом", AUTHOR1, GENRE1);
     public static final Book BOOK2 = new Book(101, "Машина времени", AUTHOR2, GENRE1);
     public static final Book BOOK3 = new Book(102, "Онегин", AUTHOR3, GENRE2);
+    public static final Book NEW_BOOK = new Book(103, "Новая книга", AUTHOR3, GENRE2);
 }
