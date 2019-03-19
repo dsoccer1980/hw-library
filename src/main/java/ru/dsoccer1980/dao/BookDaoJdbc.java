@@ -1,5 +1,6 @@
 package ru.dsoccer1980.dao;
 
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,14 @@ public class BookDaoJdbc implements BookDao {
 
     private NamedParameterJdbcOperations jdbcOperations;
 
+    private RowMapper<Book> bookRowMapper = (rs, i) ->
+            new Book(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    new Author(rs.getInt("author_id"), rs.getString("Author.name")),
+                    new Genre(rs.getInt("genre_id"), rs.getString("Genre.name")));
+    private final String QUERY_SELECT = "SELECT * FROM Book b LEFT JOIN Author a ON b.author_id=a.id LEFT JOIN Genre g ON b.genre_id=g.id";
+
     public BookDaoJdbc(NamedParameterJdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
     }
@@ -23,14 +32,7 @@ public class BookDaoJdbc implements BookDao {
     @Override
     public Book getById(int id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
-        return jdbcOperations.queryForObject("SELECT * FROM Book b LEFT JOIN Author a ON b.author_id=a.id LEFT JOIN Genre g ON b.genre_id=g.id WHERE b.id=:id", params,
-                (rs, i) ->
-                        new Book(
-                                rs.getInt("id"),
-                                rs.getString("name"),
-                                new Author(rs.getInt("author_id"), rs.getString("Author.name")),
-                                new Genre(rs.getInt("genre_id"), rs.getString("Genre.name")))
-        );
+        return jdbcOperations.queryForObject(QUERY_SELECT + " WHERE b.id=:id", params, bookRowMapper);
     }
 
     @Override
@@ -46,14 +48,7 @@ public class BookDaoJdbc implements BookDao {
 
     @Override
     public List<Book> getAll() {
-        return jdbcOperations.query("SELECT * FROM Book b LEFT JOIN Author a ON b.author_id=a.id LEFT JOIN Genre g ON b.genre_id=g.id",
-                (rs, i) ->
-                        new Book(
-                                rs.getInt("id"),
-                                rs.getString("name"),
-                                new Author(rs.getInt("author_id"), rs.getString("Author.name")),
-                                new Genre(rs.getInt("genre_id"), rs.getString("Genre.name")))
-        );
+        return jdbcOperations.query(QUERY_SELECT, bookRowMapper);
     }
 
     @Override
@@ -65,27 +60,13 @@ public class BookDaoJdbc implements BookDao {
     @Override
     public List<Book> getByAuthorId(int id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
-        return jdbcOperations.query("SELECT * FROM Book b LEFT JOIN Author a ON b.author_id=a.id LEFT JOIN Genre g ON b.genre_id=g.id WHERE a.id=:id", params,
-                (rs, i) ->
-                        new Book(
-                                rs.getInt("id"),
-                                rs.getString("name"),
-                                new Author(rs.getInt("author_id"), rs.getString("Author.name")),
-                                new Genre(rs.getInt("genre_id"), rs.getString("Genre.name")))
-        );
+        return jdbcOperations.query(QUERY_SELECT + " WHERE a.id=:id", params, bookRowMapper);
     }
 
     @Override
     public List<Book> getByGenreId(int id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
-        return jdbcOperations.query("SELECT * FROM Book b LEFT JOIN Author a ON b.author_id=a.id LEFT JOIN Genre g ON b.genre_id=g.id WHERE g.id=:id", params,
-                (rs, i) ->
-                        new Book(
-                                rs.getInt("id"),
-                                rs.getString("name"),
-                                new Author(rs.getInt("author_id"), rs.getString("Author.name")),
-                                new Genre(rs.getInt("genre_id"), rs.getString("Genre.name")))
-        );
+        return jdbcOperations.query(QUERY_SELECT + " WHERE g.id=:id", params, bookRowMapper);
     }
 
 }
