@@ -7,7 +7,9 @@ import ru.dsoccer1980.domain.Author;
 import ru.dsoccer1980.domain.Book;
 import ru.dsoccer1980.domain.Genre;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class BookDaoJdbc implements BookDao {
@@ -16,6 +18,19 @@ public class BookDaoJdbc implements BookDao {
 
     public BookDaoJdbc(NamedParameterJdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
+    }
+
+    @Override
+    public Book getById(int id) {
+        Map<String, Object> params = Collections.singletonMap("id", id);
+        return jdbcOperations.queryForObject("SELECT * FROM Book b LEFT JOIN Author a ON b.author_id=a.id LEFT JOIN Genre g ON b.genre_id=g.id WHERE b.id=:id", params,
+                (rs, i) ->
+                        new Book(
+                                rs.getInt("id"),
+                                rs.getString("name"),
+                                new Author(rs.getInt("author_id"), rs.getString("Author.name")),
+                                new Genre(rs.getInt("genre_id"), rs.getString("Genre.name")))
+        );
     }
 
     @Override
@@ -39,6 +54,12 @@ public class BookDaoJdbc implements BookDao {
                                 new Author(rs.getInt("author_id"), rs.getString("Author.name")),
                                 new Genre(rs.getInt("genre_id"), rs.getString("Genre.name")))
         );
+    }
+
+    @Override
+    public void deleteById(int id) {
+        Map<String, Object> params = Collections.singletonMap("id", id);
+        jdbcOperations.update("DELETE FROM Book WHERE id=:id", params);
     }
 
 }

@@ -40,6 +40,11 @@ public class BookDaoImplTest {
     }
 
     @Test
+    void getById() {
+        assertThat(bookDao.getById(100).getId()).isEqualTo(100);
+    }
+
+    @Test
     void insert() {
         Author author1 = new Author(1, "Стругацкий");
         Genre genre1 = new Genre(10, "Фантастика");
@@ -47,5 +52,12 @@ public class BookDaoImplTest {
 
         bookDao.insert(new Book(103, "Новая книга", author1, genre1));
         assertThat(bookDao.getAll().size()).isEqualTo(countBookBefore + 1);
+    }
+
+    @Test
+    void deleteById() {
+        int countBookBefore = bookDao.getAll().size();
+        bookDao.deleteById(100);
+        assertThat(bookDao.getAll().size()).isEqualTo(countBookBefore - 1);
     }
 }
