@@ -45,10 +45,10 @@ public class AuthorDaoImplTest {
 
     @Test
     void insert() {
-        int sizeBeforeDelete = authorDao.getAll().size();
+        int sizeBeforeInsert = authorDao.getAll().size();
         authorDao.insert(NEW_AUTHOR);
         assertThat(authorDao.getById(NEW_AUTHOR.getId()).getId()).isEqualTo(NEW_AUTHOR.getId());
-        assertThat(authorDao.getAll().size()).isEqualTo(sizeBeforeDelete + 1);
+        assertThat(authorDao.getAll().size()).isEqualTo(sizeBeforeInsert + 1);
     }
 
     @Test

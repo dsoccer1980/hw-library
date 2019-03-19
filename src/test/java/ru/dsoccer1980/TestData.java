@@ -12,6 +12,7 @@ public class TestData {
     public static final Author NEW_AUTHOR = new Author(4, "Новый автор");
     public static final Genre GENRE1 = new Genre(10, "Фантастика");
     public static final Genre GENRE2 = new Genre(11, "Классика");
+    public static final Genre NEW_GENRE = new Genre(12, "Новый жанр");
     public static final Book BOOK1 = new Book(100, "Трудно быть Богом", AUTHOR1, GENRE1);
     public static final Book BOOK2 = new Book(101, "Машина времени", AUTHOR2, GENRE1);
     public static final Book BOOK3 = new Book(102, "Онегин", AUTHOR3, GENRE2);

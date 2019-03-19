@@ -10,12 +10,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.dsoccer1980.domain.Genre;
 
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ru.dsoccer1980.TestData.*;
 
 
 @ExtendWith(SpringExtension.class)
@@ -29,33 +29,32 @@ public class GenreDaoJdbcTest {
 
     @Test
     void getAll() {
-        Genre genre1 = new Genre(10, "Фантастика");
-        Genre genre2 = new Genre(11, "Классика");
-
-        assertThat(genreDao.getAll().toString()).isEqualTo(Arrays.asList(genre1, genre2).toString());
+        assertThat(genreDao.getAll().toString()).isEqualTo(Arrays.asList(GENRE1, GENRE2).toString());
     }
 
     @Test
     void getById() {
-        assertThat(genreDao.getById(10).getId()).isEqualTo(10);
+        assertThat(genreDao.getById(GENRE1.getId()).getId()).isEqualTo(GENRE1.getId());
     }
 
     @Test
     void getByWrongId() {
-        assertThrows(EmptyResultDataAccessException.class, () -> genreDao.getById(12));
+        assertThrows(EmptyResultDataAccessException.class, () -> genreDao.getById(-1));
     }
 
     @Test
     void insert() {
-        genreDao.insert(new Genre(3, "Новый жанр"));
-        assertThat(genreDao.getById(3).getId()).isEqualTo(3);
-        assertThat(genreDao.getAll().size()).isEqualTo(3);
+        int sizeBeforeInsert = genreDao.getAll().size();
+        genreDao.insert(NEW_GENRE);
+        assertThat(genreDao.getById(NEW_GENRE.getId()).getId()).isEqualTo(NEW_GENRE.getId());
+        assertThat(genreDao.getAll().size()).isEqualTo(sizeBeforeInsert + 1);
     }
 
     @Test
     void deleteById() {
-        genreDao.deleteById(10);
-        assertThat(genreDao.getAll().size()).isEqualTo(1);
+        int sizeBeforeDelete = genreDao.getAll().size();
+        genreDao.deleteById(GENRE1.getId());
+        assertThat(genreDao.getAll().size()).isEqualTo(sizeBeforeDelete - 1);
     }
 
     @Test
