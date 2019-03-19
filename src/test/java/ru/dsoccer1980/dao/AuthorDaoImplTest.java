@@ -11,13 +11,13 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.dsoccer1980.domain.Author;
 
 
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ru.dsoccer1980.TestData.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -30,34 +30,32 @@ public class AuthorDaoImplTest {
 
     @Test
     void getAll() {
-        Author author1 = new Author(1, "Стругацкий");
-        Author author2 = new Author(2, "Уэллс");
-        Author author3 = new Author(3, "Пушкин");
-
-        assertThat(authorDao.getAll().toString()).isEqualTo(Arrays.asList(author1, author2, author3).toString());
+        assertThat(authorDao.getAll().toString()).isEqualTo(Arrays.asList(AUTHOR1, AUTHOR2, AUTHOR3).toString());
     }
 
     @Test
     void getById() {
-        assertThat(authorDao.getById(2).getId()).isEqualTo(2);
+        assertThat(authorDao.getById(AUTHOR2.getId()).getId()).isEqualTo(AUTHOR2.getId());
     }
 
     @Test
     void getByWrongId() {
-        assertThrows(EmptyResultDataAccessException.class, () -> authorDao.getById(4));
+        assertThrows(EmptyResultDataAccessException.class, () -> authorDao.getById(-1));
     }
 
     @Test
     void insert() {
-        authorDao.insert(new Author(4, "Новый автор"));
-        assertThat(authorDao.getById(4).getId()).isEqualTo(4);
-        assertThat(authorDao.getAll().size()).isEqualTo(4);
+        int sizeBeforeDelete = authorDao.getAll().size();
+        authorDao.insert(NEW_AUTHOR);
+        assertThat(authorDao.getById(NEW_AUTHOR.getId()).getId()).isEqualTo(NEW_AUTHOR.getId());
+        assertThat(authorDao.getAll().size()).isEqualTo(sizeBeforeDelete + 1);
     }
 
     @Test
     void deleteById() {
-        authorDao.deleteById(2);
-        assertThat(authorDao.getAll().size()).isEqualTo(2);
+        int sizeBeforeDelete = authorDao.getAll().size();
+        authorDao.deleteById(AUTHOR2.getId());
+        assertThat(authorDao.getAll().size()).isEqualTo(sizeBeforeDelete - 1);
     }
 
     @Test
