@@ -62,4 +62,30 @@ public class BookDaoJdbc implements BookDao {
         jdbcOperations.update("DELETE FROM Book WHERE id=:id", params);
     }
 
+    @Override
+    public List<Book> getByAuthorId(int id) {
+        Map<String, Object> params = Collections.singletonMap("id", id);
+        return jdbcOperations.query("SELECT * FROM Book b LEFT JOIN Author a ON b.author_id=a.id LEFT JOIN Genre g ON b.genre_id=g.id WHERE a.id=:id", params,
+                (rs, i) ->
+                        new Book(
+                                rs.getInt("id"),
+                                rs.getString("name"),
+                                new Author(rs.getInt("author_id"), rs.getString("Author.name")),
+                                new Genre(rs.getInt("genre_id"), rs.getString("Genre.name")))
+        );
+    }
+
+    @Override
+    public List<Book> getByGenreId(int id) {
+        Map<String, Object> params = Collections.singletonMap("id", id);
+        return jdbcOperations.query("SELECT * FROM Book b LEFT JOIN Author a ON b.author_id=a.id LEFT JOIN Genre g ON b.genre_id=g.id WHERE g.id=:id", params,
+                (rs, i) ->
+                        new Book(
+                                rs.getInt("id"),
+                                rs.getString("name"),
+                                new Author(rs.getInt("author_id"), rs.getString("Author.name")),
+                                new Genre(rs.getInt("genre_id"), rs.getString("Genre.name")))
+        );
+    }
+
 }

@@ -46,4 +46,14 @@ public class BookDaoImplTest {
         bookDao.deleteById(BOOK1.getId());
         assertThat(bookDao.getAll().size()).isEqualTo(sizeBeforeDelete - 1);
     }
+
+    @Test
+    void getByAuthorId() {
+        assertThat(bookDao.getByAuthorId(AUTHOR1.getId()).toString()).isEqualTo(Arrays.asList(BOOK1).toString());
+    }
+
+    @Test
+    void getByGenreId() {
+        assertThat(bookDao.getByGenreId(GENRE1.getId()).toString()).isEqualTo(Arrays.asList(BOOK1, BOOK2).toString());
+    }
 }
