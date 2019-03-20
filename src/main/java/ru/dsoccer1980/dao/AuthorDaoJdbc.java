@@ -29,6 +29,14 @@ public class AuthorDaoJdbc implements AuthorDao {
     }
 
     @Override
+    public void insert(String name) {
+        Map<String, Object> params = Collections.singletonMap("name", name);
+
+        jdbcOperations.update("INSERT INTO Author(name) VALUES(:name)", params);
+
+    }
+
+    @Override
     public Author getById(int id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         return jdbcOperations.queryForObject("SELECT * FROM Author WHERE id=:id", params,

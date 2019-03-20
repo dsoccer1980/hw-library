@@ -57,6 +57,13 @@ public class AuthorDaoImplTest {
     }
 
     @Test
+    void insertName() {
+        int sizeBeforeInsert = authorDao.getAll().size();
+        authorDao.insert(NEW_AUTHOR.getName());
+        assertThat(authorDao.getAll().size()).isEqualTo(sizeBeforeInsert + 1);
+    }
+
+    @Test
     void deleteById() {
         int sizeBeforeDelete = authorDao.getAll().size();
         authorDao.deleteById(AUTHOR2.getId());
