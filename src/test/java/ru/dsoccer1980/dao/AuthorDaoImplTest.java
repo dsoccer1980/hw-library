@@ -71,6 +71,11 @@ public class AuthorDaoImplTest {
     }
 
     @Test
+    void getIdByName() {
+        assertThat(authorDao.getIdByName(AUTHOR1.getName())).isEqualTo(AUTHOR1.getId());
+    }
+
+    @Test
     void contexLoads() throws Exception {
     }
 

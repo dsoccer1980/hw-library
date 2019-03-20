@@ -52,4 +52,10 @@ public class GenreDaoJdbc implements GenreDao {
         Map<String, Object> params = Collections.singletonMap("id", id);
         jdbcOperations.update("DELETE FROM Genre WHERE id=:id", params);
     }
+
+    @Override
+    public int getIdByName(String name) {
+        Map<String, Object> params = Collections.singletonMap("name", name);
+        return jdbcOperations.queryForObject("SELECT id FROM Genre WHERE name=:name", params, Integer.class);
+    }
 }

@@ -53,4 +53,10 @@ public class AuthorDaoJdbc implements AuthorDao {
         Map<String, Object> params = Collections.singletonMap("id", id);
         jdbcOperations.update("DELETE FROM Author WHERE id=:id", params);
     }
+
+    @Override
+    public int getIdByName(String name) {
+        Map<String, Object> params = Collections.singletonMap("name", name);
+        return jdbcOperations.queryForObject("SELECT id FROM Author WHERE name=:name", params, Integer.class);
+    }
 }

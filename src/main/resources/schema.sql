@@ -6,17 +6,20 @@ CREATE TABLE Author(
   id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255)
 );
+CREATE UNIQUE INDEX author_name ON author (name);
 
 CREATE TABLE Genre(
   id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255)
 );
+CREATE UNIQUE INDEX genre_name ON author (name);
 
 CREATE TABLE Book (
   id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255) ,
   author_id INT,
   genre_id INT,
+  CONSTRAINT name_author_genre UNIQUE (name, author_id, genre_id),
   FOREIGN KEY(author_id) REFERENCES Author(id) ON DELETE CASCADE,
   FOREIGN KEY(genre_id) REFERENCES Genre(id) ON DELETE CASCADE
 )

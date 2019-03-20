@@ -70,6 +70,11 @@ public class GenreDaoJdbcTest {
     }
 
     @Test
+    void getIdByName() {
+        assertThat(genreDao.getIdByName(GENRE1.getName())).isEqualTo(GENRE1.getId());
+    }
+
+    @Test
     void contexLoads() throws Exception {
     }
 

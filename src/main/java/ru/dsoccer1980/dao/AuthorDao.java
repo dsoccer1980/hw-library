@@ -16,4 +16,6 @@ public interface AuthorDao {
 
     void deleteById(int id);
 
+    int getIdByName(String name);
+
 }

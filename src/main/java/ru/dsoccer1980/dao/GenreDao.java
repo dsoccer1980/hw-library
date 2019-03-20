@@ -16,4 +16,6 @@ public interface GenreDao {
 
     void deleteById(int id);
 
+    int getIdByName(String name);
+
 }
