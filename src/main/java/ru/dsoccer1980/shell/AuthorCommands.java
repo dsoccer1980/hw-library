@@ -6,6 +6,10 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.dsoccer1980.dao.AuthorDao;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 
 @ShellComponent
 public class AuthorCommands {
@@ -20,7 +24,7 @@ public class AuthorCommands {
     @ShellMethod("actions with authors")
     public void author(
             @ShellOption(defaultValue = "--get") String action,
-            @ShellOption(defaultValue = "-1") int id) {
+            @ShellOption(defaultValue = "-1") int id) throws IOException {
 
         switch (action) {
             case "--get":
@@ -33,6 +37,11 @@ public class AuthorCommands {
             case "--delete":
                 authorDao.deleteById(id);
                 break;
+            case "--insert":
+                System.out.println("Please insert author name:");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                String name = reader.readLine();
+                authorDao.insert(name);
         }
 
 

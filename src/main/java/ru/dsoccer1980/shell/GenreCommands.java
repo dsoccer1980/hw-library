@@ -6,6 +6,10 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.dsoccer1980.dao.GenreDao;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 
 @ShellComponent
 public class GenreCommands {
@@ -20,7 +24,7 @@ public class GenreCommands {
     @ShellMethod("actions with genres")
     public void genre(
             @ShellOption(defaultValue = "--get") String action,
-            @ShellOption(defaultValue = "-1") int id) {
+            @ShellOption(defaultValue = "-1") int id) throws IOException {
 
         switch (action) {
             case "--get":
@@ -33,6 +37,11 @@ public class GenreCommands {
             case "--delete":
                 genreDao.deleteById(id);
                 break;
+            case "--insert":
+                System.out.println("Please insert genre name:");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                String name = reader.readLine();
+                genreDao.insert(name);
         }
 
 
