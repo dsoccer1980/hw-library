@@ -17,7 +17,7 @@ public class BookCommands {
         this.bookDao = bookDao;
     }
 
-    @ShellMethod("show books")
+    @ShellMethod("actions with books")
     public void book(
             @ShellOption(defaultValue = "--get") String action,
             @ShellOption(defaultValue = "-1") int id) {
