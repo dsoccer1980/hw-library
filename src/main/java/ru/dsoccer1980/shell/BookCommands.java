@@ -30,6 +30,12 @@ public class BookCommands {
                     System.out.println(bookDao.getById(id));
                 }
                 break;
+            case "--author":
+                bookDao.getByAuthorId(id).forEach(System.out::println);
+                break;
+            case "--genre":
+                bookDao.getByGenreId(id).forEach(System.out::println);
+                break;
             case "--delete":
                 bookDao.deleteById(id);
                 break;
