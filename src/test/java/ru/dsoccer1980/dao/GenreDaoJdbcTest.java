@@ -56,6 +56,13 @@ public class GenreDaoJdbcTest {
     }
 
     @Test
+    void insertName() {
+        int sizeBeforeInsert = genreDao.getAll().size();
+        genreDao.insert(NEW_AUTHOR.getName());
+        assertThat(genreDao.getAll().size()).isEqualTo(sizeBeforeInsert + 1);
+    }
+
+    @Test
     void deleteById() {
         int sizeBeforeDelete = genreDao.getAll().size();
         genreDao.deleteById(GENRE1.getId());

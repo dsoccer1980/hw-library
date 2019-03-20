@@ -28,6 +28,14 @@ public class GenreDaoJdbc implements GenreDao {
     }
 
     @Override
+    public void insert(String name) {
+        Map<String, Object> params = Collections.singletonMap("name", name);
+
+        jdbcOperations.update("INSERT INTO Genre(name) VALUES(:name)", params);
+
+    }
+
+    @Override
     public Genre getById(int id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         return jdbcOperations.queryForObject("SELECT * FROM Genre WHERE id=:id", params,

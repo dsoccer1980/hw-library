@@ -8,6 +8,8 @@ public interface GenreDao {
 
     void insert(Genre genre);
 
+    void insert(String name);
+
     Genre getById(int id);
 
     List<Genre> getAll();
