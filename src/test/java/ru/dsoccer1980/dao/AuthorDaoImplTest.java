@@ -76,6 +76,11 @@ public class AuthorDaoImplTest {
     }
 
     @Test
+    void getIdByWrongName() {
+        assertThat(authorDao.getIdByName("wrong name")).isEqualTo(-1);
+    }
+
+    @Test
     void contexLoads() throws Exception {
     }
 

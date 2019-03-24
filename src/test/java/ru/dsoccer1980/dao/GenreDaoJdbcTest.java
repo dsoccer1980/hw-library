@@ -75,6 +75,11 @@ public class GenreDaoJdbcTest {
     }
 
     @Test
+    void getIdByWrongName() {
+        assertThat(genreDao.getIdByName("wrong name")).isEqualTo(-1);
+    }
+
+    @Test
     void contexLoads() throws Exception {
     }
 

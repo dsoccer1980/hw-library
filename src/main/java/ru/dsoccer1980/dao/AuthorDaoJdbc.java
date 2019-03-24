@@ -1,5 +1,6 @@
 package ru.dsoccer1980.dao;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
@@ -57,6 +58,10 @@ public class AuthorDaoJdbc implements AuthorDao {
     @Override
     public int getIdByName(String name) {
         Map<String, Object> params = Collections.singletonMap("name", name);
-        return jdbcOperations.queryForObject("SELECT id FROM Author WHERE name=:name", params, Integer.class);
+        try {
+            return jdbcOperations.queryForObject("SELECT id FROM Author WHERE name=:name", params, Integer.class);
+        } catch (EmptyResultDataAccessException e) {
+            return -1;
+        }
     }
 }

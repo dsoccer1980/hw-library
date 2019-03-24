@@ -17,6 +17,9 @@ public class BookDaoJdbc implements BookDao {
 
     private NamedParameterJdbcOperations jdbcOperations;
 
+    private AuthorDao authorDao;
+    private GenreDao genreDao;
+
     private RowMapper<Book> bookRowMapper = (rs, i) ->
             new Book(
                     rs.getInt("id"),
@@ -25,8 +28,10 @@ public class BookDaoJdbc implements BookDao {
                     new Genre(rs.getInt("genre_id"), rs.getString("Genre.name")));
     private final String QUERY_SELECT = "SELECT * FROM Book b LEFT JOIN Author a ON b.author_id=a.id LEFT JOIN Genre g ON b.genre_id=g.id";
 
-    public BookDaoJdbc(NamedParameterJdbcOperations jdbcOperations) {
+    public BookDaoJdbc(NamedParameterJdbcOperations jdbcOperations, AuthorDao authorDao, GenreDao genreDao) {
         this.jdbcOperations = jdbcOperations;
+        this.authorDao = authorDao;
+        this.genreDao = genreDao;
     }
 
     @Override
@@ -44,6 +49,27 @@ public class BookDaoJdbc implements BookDao {
         params.addValue("genre_id", book.getGenre().getId());
 
         jdbcOperations.update("INSERT INTO Book(id, name, author_id, genre_id) VALUES(:id, :name, :author_id, :genre_id)", params);
+    }
+
+    @Override
+    public void insert(String bookName, String authorName, String genreName) {
+        int authorId = authorDao.getIdByName(authorName);
+        if (authorId == -1) {
+            authorDao.insert(authorName);
+            authorId = authorDao.getIdByName(authorName);
+        }
+        int genreId = genreDao.getIdByName(genreName);
+        if (genreId == -1) {
+            genreDao.insert(genreName);
+            genreId = genreDao.getIdByName(genreName);
+        }
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("name", bookName);
+        params.addValue("author_id", authorId);
+        params.addValue("genre_id", genreId);
+
+        jdbcOperations.update("INSERT INTO Book(name, author_id, genre_id) VALUES(:name, :author_id, :genre_id)", params);
     }
 
     @Override
