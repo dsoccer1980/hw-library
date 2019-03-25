@@ -20,7 +20,6 @@ import static ru.dsoccer1980.TestData.*;
         ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"
 })
 @Import({BookDaoJdbc.class, AuthorDaoJdbc.class, GenreDaoJdbc.class})
-@Sql(scripts = "classpath:data-test.sql", config = @SqlConfig(encoding = "UTF-8"))
 @ActiveProfiles("test")
 public class BookDaoImplTest {
 

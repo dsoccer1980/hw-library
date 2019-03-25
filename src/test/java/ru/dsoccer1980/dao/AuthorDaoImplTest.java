@@ -10,8 +10,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
 
 
 import java.util.Arrays;
@@ -25,7 +23,6 @@ import static ru.dsoccer1980.TestData.*;
         ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"
 })
 @Import(AuthorDaoJdbc.class)
-@Sql(scripts = "classpath:data-test.sql", config = @SqlConfig(encoding = "UTF-8"))
 @ActiveProfiles("test")
 public class AuthorDaoImplTest {
 
