@@ -51,30 +51,30 @@ class AuthorActionServiceImplTest {
 
     @Test
     void actionGetAll() throws IOException {
-        authorActionService.action("--getAll", -1);
+        authorActionService.action("--getAll", -1L);
         assertThat(getData()).isEqualTo((AUTHOR1.toString() + AUTHOR2 + AUTHOR3));
     }
 
     @Test
     void actionDelete() throws IOException {
         authorActionService.action("--delete", AUTHOR1.getId());
-        authorActionService.action("--getAll", -1);
+        authorActionService.action("--getAll", -1L);
         assertThat(getData()).isEqualTo((AUTHOR2.toString() + AUTHOR3));
     }
 
     @Test
     void actionCount() throws IOException {
-        authorActionService.action("--count", -1);
+        authorActionService.action("--count", -1L);
         assertThat(getData()).isEqualTo("3");
     }
 
     @Test
     void actionInsert() throws IOException {
         in.add(NEW_AUTHOR.getName());
-        authorActionService.action("--insert", -1);
+        authorActionService.action("--insert", -1L);
 
         out.reset();
-        authorActionService.action("--count", -1);
+        authorActionService.action("--count", -1L);
         assertThat(getData()).isEqualTo("4");
     }
 

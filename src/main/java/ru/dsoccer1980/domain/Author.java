@@ -1,15 +1,15 @@
 package ru.dsoccer1980.domain;
 
 public class Author {
-    private int id;
+    private long id;
     private String name;
 
-    public Author(int id, String name) {
+    public Author(long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

@@ -16,7 +16,7 @@ public class AuthorActionServiceImpl implements AuthorActionService {
         this.authorDao = authorDao;
     }
 
-    public void action(String type, Integer id) throws IOException {
+    public void action(String type, Long id) throws IOException {
         switch (type) {
             case "--get":
                 System.out.println(authorDao.getById(id));

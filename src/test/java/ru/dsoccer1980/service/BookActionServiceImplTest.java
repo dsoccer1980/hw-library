@@ -59,7 +59,7 @@ class BookActionServiceImplTest {
 
     @Test
     void actionGetByAuthor() throws IOException {
-        bookActionService.action("--author", BOOK1.getAuthor().getId());
+        bookActionService.action("--author", (int)BOOK1.getAuthor().getId());
         assertThat(getData()).isEqualTo(BOOK1.toString());
     }
 

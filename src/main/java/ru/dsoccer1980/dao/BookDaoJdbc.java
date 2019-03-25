@@ -47,7 +47,7 @@ public class BookDaoJdbc implements BookDao {
 
     @Override
     public void insert(String bookName, String authorName, String genreName) {
-        int authorId = authorDao.getIdByName(authorName);
+        long authorId = authorDao.getIdByName(authorName);
         if (authorId == -1) {
             authorDao.insert(authorName);
             authorId = authorDao.getIdByName(authorName);
@@ -78,7 +78,7 @@ public class BookDaoJdbc implements BookDao {
     }
 
     @Override
-    public List<Book> getByAuthorId(int id) {
+    public List<Book> getByAuthorId(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         return jdbcOperations.query(QUERY_SELECT + " WHERE a.id=:id", params, bookRowMapper);
     }

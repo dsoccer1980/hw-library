@@ -10,12 +10,12 @@ public interface AuthorDao {
 
     void insert(String name);
 
-    Author getById(int id);
+    Author getById(long id);
 
     List<Author> getAll();
 
-    void deleteById(int id);
+    void deleteById(long id);
 
-    int getIdByName(String name);
+    long getIdByName(String name);
 
 }
