@@ -53,13 +53,13 @@ class BookActionServiceImplTest {
 
     @Test
     void actionGetAll() throws IOException {
-        bookActionService.action("--getAll", -1);
+        bookActionService.action("--getAll", -1L);
         assertThat(getData()).isEqualTo((BOOK1.toString() + BOOK2 + BOOK3));
     }
 
     @Test
     void actionGetByAuthor() throws IOException {
-        bookActionService.action("--author", (int)BOOK1.getAuthor().getId());
+        bookActionService.action("--author", BOOK1.getAuthor().getId());
         assertThat(getData()).isEqualTo(BOOK1.toString());
     }
 
@@ -72,13 +72,13 @@ class BookActionServiceImplTest {
     @Test
     void actionDelete() throws IOException {
         bookActionService.action("--delete", BOOK1.getId());
-        bookActionService.action("--getAll", -1);
+        bookActionService.action("--getAll", -1L);
         assertThat(getData()).isEqualTo((BOOK2.toString() + BOOK3));
     }
 
     @Test
     void actionCount() throws IOException {
-        bookActionService.action("--count", -1);
+        bookActionService.action("--count", -1L);
         assertThat(getData()).isEqualTo("3");
     }
 
@@ -87,10 +87,10 @@ class BookActionServiceImplTest {
         in.add(NEW_BOOK.getName());
         in.add(NEW_BOOK.getAuthor().getName());
         in.add(NEW_BOOK.getGenre().getName());
-        bookActionService.action("--insert", -1);
+        bookActionService.action("--insert", -1L);
 
         out.reset();
-        bookActionService.action("--count", -1);
+        bookActionService.action("--count", -1L);
         assertThat(getData()).isEqualTo("4");
     }
 

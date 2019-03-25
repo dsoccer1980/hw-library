@@ -51,30 +51,30 @@ class GenreActionServiceImplTest {
 
     @Test
     void actionGetAll() throws IOException {
-        genreActionService.action("--getAll", -1);
+        genreActionService.action("--getAll", -1L);
         assertThat(getData()).isEqualTo((GENRE1.toString() + GENRE2));
     }
 
     @Test
     void actionDelete() throws IOException {
         genreActionService.action("--delete", GENRE1.getId());
-        genreActionService.action("--getAll", -1);
+        genreActionService.action("--getAll", -1L);
         assertThat(getData()).isEqualTo((GENRE2.toString()));
     }
 
     @Test
     void actionCount() throws IOException {
-        genreActionService.action("--count", -1);
+        genreActionService.action("--count", -1L);
         assertThat(getData()).isEqualTo("2");
     }
 
     @Test
     void actionInsert() throws IOException {
         in.add(NEW_GENRE.getName());
-        genreActionService.action("--insert", -1);
+        genreActionService.action("--insert", -1L);
 
         out.reset();
-        genreActionService.action("--count", -1);
+        genreActionService.action("--count", -1L);
         assertThat(getData()).isEqualTo("3");
     }
 

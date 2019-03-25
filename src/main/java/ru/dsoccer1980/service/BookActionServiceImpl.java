@@ -16,7 +16,7 @@ public class BookActionServiceImpl implements BookActionService {
         this.bookDao = bookDao;
     }
 
-    public void action(String type, Integer id) throws IOException {
+    public void action(String type, Long id) throws IOException {
         switch (type) {
             case "--get":
                 System.out.println(bookDao.getById(id));

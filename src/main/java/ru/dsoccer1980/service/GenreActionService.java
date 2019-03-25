@@ -4,5 +4,5 @@ import java.io.IOException;
 
 public interface GenreActionService {
 
-    void action(String type, Integer id) throws IOException;
+    void action(String type, Long id) throws IOException;
 }

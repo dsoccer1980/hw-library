@@ -1,6 +1,7 @@
 package ru.dsoccer1980.dao;
 
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,7 @@ import java.util.Map;
 public class GenreDaoJdbc implements GenreDao {
 
     private NamedParameterJdbcOperations jdbcOperations;
+    private RowMapper<Genre> genreRowMapper = (rs, i) -> new Genre(rs.getInt("id"), rs.getString("name"));
 
     public GenreDaoJdbc(NamedParameterJdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
@@ -37,25 +39,24 @@ public class GenreDaoJdbc implements GenreDao {
     }
 
     @Override
-    public Genre getById(int id) {
+    public Genre getById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
-        return jdbcOperations.queryForObject("SELECT * FROM Genre WHERE id=:id", params,
-                (rs, i) -> new Genre(rs.getInt("id"), rs.getString("name")));
+        return jdbcOperations.queryForObject("SELECT * FROM Genre WHERE id=:id", params, genreRowMapper);
     }
 
     @Override
     public List<Genre> getAll() {
-        return jdbcOperations.query("SELECT * FROM Genre", (rs, i) -> new Genre(rs.getInt("id"), rs.getString("name")));
+        return jdbcOperations.query("SELECT * FROM Genre", genreRowMapper);
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         jdbcOperations.update("DELETE FROM Genre WHERE id=:id", params);
     }
 
     @Override
-    public int getIdByName(String name) {
+    public long getIdByName(String name) {
         Map<String, Object> params = Collections.singletonMap("name", name);
         try {
             return jdbcOperations.queryForObject("SELECT id FROM Genre WHERE name=:name", params, Integer.class);

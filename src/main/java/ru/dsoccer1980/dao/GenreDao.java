@@ -10,12 +10,12 @@ public interface GenreDao {
 
     void insert(String name);
 
-    Genre getById(int id);
+    Genre getById(long id);
 
     List<Genre> getAll();
 
-    void deleteById(int id);
+    void deleteById(long id);
 
-    int getIdByName(String name);
+    long getIdByName(String name);
 
 }

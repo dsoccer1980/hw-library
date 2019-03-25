@@ -35,7 +35,7 @@ public class BookDaoJdbc implements BookDao {
     }
 
     @Override
-    public Book getById(int id) {
+    public Book getById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         return jdbcOperations.queryForObject(QUERY_SELECT + " WHERE b.id=:id", params, bookRowMapper);
     }
@@ -52,7 +52,7 @@ public class BookDaoJdbc implements BookDao {
             authorDao.insert(authorName);
             authorId = authorDao.getIdByName(authorName);
         }
-        int genreId = genreDao.getIdByName(genreName);
+        long genreId = genreDao.getIdByName(genreName);
         if (genreId == -1) {
             genreDao.insert(genreName);
             genreId = genreDao.getIdByName(genreName);
@@ -72,7 +72,7 @@ public class BookDaoJdbc implements BookDao {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         jdbcOperations.update("DELETE FROM Book WHERE id=:id", params);
     }
@@ -84,7 +84,7 @@ public class BookDaoJdbc implements BookDao {
     }
 
     @Override
-    public List<Book> getByGenreId(int id) {
+    public List<Book> getByGenreId(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         return jdbcOperations.query(QUERY_SELECT + " WHERE g.id=:id", params, bookRowMapper);
     }

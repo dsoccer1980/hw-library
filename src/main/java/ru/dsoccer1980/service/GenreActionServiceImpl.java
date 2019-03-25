@@ -16,7 +16,7 @@ public class GenreActionServiceImpl implements GenreActionService {
         this.genreDao = genreDao;
     }
 
-    public void action(String type, Integer id) throws IOException {
+    public void action(String type, Long id) throws IOException {
         switch (type) {
             case "--get":
                 System.out.println(genreDao.getById(id));
