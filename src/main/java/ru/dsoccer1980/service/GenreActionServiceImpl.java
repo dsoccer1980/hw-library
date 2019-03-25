@@ -32,6 +32,9 @@ public class GenreActionServiceImpl implements GenreActionService {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                 String name = reader.readLine();
                 genreDao.insert(name);
+                break;
+            case "--count":
+                System.out.println(genreDao.getAll().size());
         }
     }
 }
