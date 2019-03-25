@@ -32,6 +32,9 @@ public class AuthorActionServiceImpl implements AuthorActionService {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                 String name = reader.readLine();
                 authorDao.insert(name);
+                break;
+            case "--count":
+                System.out.println(authorDao.getAll().size());
         }
     }
 }
