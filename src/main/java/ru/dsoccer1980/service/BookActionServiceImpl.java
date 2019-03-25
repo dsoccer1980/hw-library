@@ -41,6 +41,9 @@ public class BookActionServiceImpl implements BookActionService {
                 System.out.println("Please insert book genre:");
                 String geneName = reader.readLine();
                 bookDao.insert(bookName, authorName, geneName);
+                break;
+            case "--count":
+                System.out.println(bookDao.getAll().size());
         }
     }
 }
