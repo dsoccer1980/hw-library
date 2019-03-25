@@ -1,6 +1,7 @@
 package ru.dsoccer1980.dao;
 
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,7 @@ import java.util.Map;
 public class AuthorDaoJdbc implements AuthorDao {
 
     private NamedParameterJdbcOperations jdbcOperations;
+    private RowMapper<Author> authorRowMapper = (rs, i) -> new Author(rs.getInt("id"), rs.getString("name"));
 
     public AuthorDaoJdbc(NamedParameterJdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
@@ -40,13 +42,12 @@ public class AuthorDaoJdbc implements AuthorDao {
     @Override
     public Author getById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
-        return jdbcOperations.queryForObject("SELECT * FROM Author WHERE id=:id", params,
-                (rs, i) -> new Author(rs.getInt("id"), rs.getString("name")));
+        return jdbcOperations.queryForObject("SELECT * FROM Author WHERE id=:id", params, authorRowMapper);
     }
 
     @Override
     public List<Author> getAll() {
-        return jdbcOperations.query("SELECT * FROM Author", (rs, i) -> new Author(rs.getInt("id"), rs.getString("name")));
+        return jdbcOperations.query("SELECT * FROM Author", authorRowMapper);
     }
 
     @Override
