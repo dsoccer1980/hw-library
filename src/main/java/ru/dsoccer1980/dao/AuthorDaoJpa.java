@@ -5,10 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.dsoccer1980.domain.Author;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 
 import java.util.List;
 
@@ -53,4 +50,16 @@ public class AuthorDaoJpa implements AuthorDao {
         query.setParameter("name", name);
         return query.getSingleResult().getId();
     }
+
+    @Override
+    public Author getByName(String name) {
+        TypedQuery<Author> query = entityManager.createQuery("SELECT a FROM Author a WHERE a.name=:name", Author.class);
+        query.setParameter("name", name);
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
 }

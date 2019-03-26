@@ -18,4 +18,6 @@ public interface AuthorDao {
 
     long getIdByName(String name);
 
+    Author getByName(String name);
+
 }

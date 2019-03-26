@@ -18,4 +18,6 @@ public interface GenreDao {
 
     long getIdByName(String name);
 
+    Genre getByName(String name);
+
 }

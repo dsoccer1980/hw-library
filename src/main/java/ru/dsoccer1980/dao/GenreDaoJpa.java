@@ -5,10 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.dsoccer1980.domain.Genre;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 @Repository
@@ -41,15 +38,26 @@ public class GenreDaoJpa implements GenreDao {
 
     @Override
     public void deleteById(long id) {
-        Query query = entityManager.createQuery("DELETE FROM Genre ag WHERE g.id=:id");
+        Query query = entityManager.createQuery("DELETE FROM Genre g WHERE g.id=:id");
         query.setParameter("id", id);
         query.executeUpdate();
     }
 
     @Override
     public long getIdByName(String name) {
-        TypedQuery<Genre> query = entityManager.createQuery("SELECT g FROM Genre ag WHERE g.name=:name", Genre.class);
+        TypedQuery<Genre> query = entityManager.createQuery("SELECT g FROM Genre g WHERE g.name=:name", Genre.class);
         query.setParameter("name", name);
         return query.getSingleResult().getId();
+    }
+
+    @Override
+    public Genre getByName(String name) {
+        TypedQuery<Genre> query = entityManager.createQuery("SELECT g FROM Genre g WHERE g.name=:name", Genre.class);
+        query.setParameter("name", name);
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

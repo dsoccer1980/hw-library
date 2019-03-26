@@ -1,13 +1,33 @@
 package ru.dsoccer1980.domain;
 
+import javax.persistence.*;
+
+@Entity
 public class Book {
+
+    @Id
+    @GeneratedValue
     private long id;
     private String name;
+
+    @OneToOne
+    @JoinColumn(name = "author_id")
     private Author author;
+    @OneToOne
+    @JoinColumn(name = "genre_id")
     private Genre genre;
+
+    public Book() {
+    }
 
     public Book(long id, String name, Author author, Genre genre) {
         this.id = id;
+        this.name = name;
+        this.author = author;
+        this.genre = genre;
+    }
+
+    public Book(String name, Author author, Genre genre) {
         this.name = name;
         this.author = author;
         this.genre = genre;
