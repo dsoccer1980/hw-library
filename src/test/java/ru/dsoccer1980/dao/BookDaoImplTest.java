@@ -4,21 +4,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.shell.jline.InteractiveShellApplicationRunner;
-import org.springframework.shell.jline.ScriptShellApplicationRunner;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
+
 
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.dsoccer1980.TestData.*;
 
-@JdbcTest(properties = {
-        InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
-        ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"
-})
+@JdbcTest
 @Import({BookDaoJdbc.class, AuthorDaoJdbc.class, GenreDaoJdbc.class})
 @ActiveProfiles("test")
 public class BookDaoImplTest {
