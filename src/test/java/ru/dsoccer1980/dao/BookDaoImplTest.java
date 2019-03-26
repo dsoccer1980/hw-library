@@ -2,7 +2,7 @@ package ru.dsoccer1980.dao;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -12,8 +12,8 @@ import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.dsoccer1980.TestData.*;
 
-@JdbcTest
-@Import({BookDaoJdbc.class, AuthorDaoJdbc.class, GenreDaoJdbc.class})
+@DataJpaTest
+@Import({BookDaoJpa.class, AuthorDaoJpa.class, GenreDaoJpa.class})
 @ActiveProfiles("test")
 public class BookDaoImplTest {
 

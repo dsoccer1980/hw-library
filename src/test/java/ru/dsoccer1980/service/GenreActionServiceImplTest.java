@@ -53,6 +53,7 @@ class GenreActionServiceImplTest {
     @Test
     void actionDelete() throws IOException {
         genreActionService.action("--delete", GENRE1.getId());
+        out.reset();
         genreActionService.action("--getAll", -1L);
         assertThat(getData()).isEqualTo((GENRE2.toString()));
     }

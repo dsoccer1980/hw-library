@@ -18,7 +18,11 @@ public class AuthorDaoJpa implements AuthorDao {
 
     @Override
     public void insert(Author author) {
-        entityManager.persist(author);
+        if (author.isNew()) {
+            entityManager.persist(author);
+        } else {
+            entityManager.merge(author);
+        }
     }
 
     @Override
@@ -42,13 +46,6 @@ public class AuthorDaoJpa implements AuthorDao {
         Query query = entityManager.createQuery("DELETE FROM Author a WHERE a.id=:id");
         query.setParameter("id", id);
         query.executeUpdate();
-    }
-
-    @Override
-    public long getIdByName(String name) {
-        TypedQuery<Author> query = entityManager.createQuery("SELECT a FROM Author a WHERE a.name=:name", Author.class);
-        query.setParameter("name", name);
-        return query.getSingleResult().getId();
     }
 
     @Override

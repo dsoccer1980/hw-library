@@ -7,7 +7,7 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
 
     @OneToOne
@@ -33,7 +33,7 @@ public class Book {
         this.genre = genre;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -47,6 +47,10 @@ public class Book {
 
     public Genre getGenre() {
         return genre;
+    }
+
+    public boolean isNew() {
+        return this.id == null;
     }
 
     @Override

@@ -10,7 +10,7 @@ public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
 
     public Genre() {
@@ -25,12 +25,16 @@ public class Genre {
         this.name = name;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
     public String getName() {
         return name;
+    }
+
+    public boolean isNew() {
+        return this.id == null;
     }
 
     @Override

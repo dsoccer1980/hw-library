@@ -4,20 +4,18 @@ package ru.dsoccer1980.dao;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ActiveProfiles;
 
 
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.dsoccer1980.TestData.*;
 
-@JdbcTest
-@Import(AuthorDaoJdbc.class)
+@DataJpaTest
+@Import(AuthorDaoJpa.class)
 @ActiveProfiles("test")
 public class AuthorDaoImplTest {
 
@@ -36,7 +34,7 @@ public class AuthorDaoImplTest {
 
     @Test
     void getByWrongId() {
-        assertThrows(EmptyResultDataAccessException.class, () -> authorDao.getById(-1));
+        assertThat(authorDao.getById(-1)).isEqualTo(null);
     }
 
     @Test
@@ -59,16 +57,6 @@ public class AuthorDaoImplTest {
         int sizeBeforeDelete = authorDao.getAll().size();
         authorDao.deleteById(AUTHOR2.getId());
         assertThat(authorDao.getAll().size()).isEqualTo(sizeBeforeDelete - 1);
-    }
-
-    @Test
-    void getIdByName() {
-        assertThat(authorDao.getIdByName(AUTHOR1.getName())).isEqualTo(AUTHOR1.getId());
-    }
-
-    @Test
-    void getIdByWrongName() {
-        assertThat(authorDao.getIdByName("wrong name")).isEqualTo(-1);
     }
 
     @Test

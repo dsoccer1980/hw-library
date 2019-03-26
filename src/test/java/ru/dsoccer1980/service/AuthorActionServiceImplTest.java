@@ -53,6 +53,7 @@ class AuthorActionServiceImplTest {
     @Test
     void actionDelete() throws IOException {
         authorActionService.action("--delete", AUTHOR1.getId());
+        out.reset();
         authorActionService.action("--getAll", -1L);
         assertThat(getData()).isEqualTo((AUTHOR2.toString() + AUTHOR3));
     }

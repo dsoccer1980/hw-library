@@ -17,7 +17,11 @@ public class GenreDaoJpa implements GenreDao {
 
     @Override
     public void insert(Genre genre) {
-        entityManager.persist(genre);
+        if (genre.isNew()) {
+            entityManager.persist(genre);
+        } else {
+            entityManager.merge(genre);
+        }
     }
 
     @Override
@@ -41,13 +45,6 @@ public class GenreDaoJpa implements GenreDao {
         Query query = entityManager.createQuery("DELETE FROM Genre g WHERE g.id=:id");
         query.setParameter("id", id);
         query.executeUpdate();
-    }
-
-    @Override
-    public long getIdByName(String name) {
-        TypedQuery<Genre> query = entityManager.createQuery("SELECT g FROM Genre g WHERE g.name=:name", Genre.class);
-        query.setParameter("name", name);
-        return query.getSingleResult().getId();
     }
 
     @Override

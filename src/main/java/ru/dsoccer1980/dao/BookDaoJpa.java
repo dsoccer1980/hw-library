@@ -38,7 +38,11 @@ public class BookDaoJpa implements BookDao {
 
     @Override
     public void insert(Book book) {
-        entityManager.persist(book);
+        if (book.isNew()) {
+            entityManager.persist(book);
+        } else {
+            entityManager.merge(book);
+        }
     }
 
     @Override

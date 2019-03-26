@@ -3,20 +3,18 @@ package ru.dsoccer1980.dao;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.dsoccer1980.TestData.*;
 
 
-@JdbcTest
-@Import(GenreDaoJdbc.class)
+@DataJpaTest
+@Import(GenreDaoJpa.class)
 @ActiveProfiles("test")
 public class GenreDaoJdbcTest {
 
@@ -35,7 +33,7 @@ public class GenreDaoJdbcTest {
 
     @Test
     void getByWrongId() {
-        assertThrows(EmptyResultDataAccessException.class, () -> genreDao.getById(-1));
+        assertThat(genreDao.getById(-1)).isEqualTo(null);
     }
 
     @Test
@@ -58,16 +56,6 @@ public class GenreDaoJdbcTest {
         int sizeBeforeDelete = genreDao.getAll().size();
         genreDao.deleteById(GENRE1.getId());
         assertThat(genreDao.getAll().size()).isEqualTo(sizeBeforeDelete - 1);
-    }
-
-    @Test
-    void getIdByName() {
-        assertThat(genreDao.getIdByName(GENRE1.getName())).isEqualTo(GENRE1.getId());
-    }
-
-    @Test
-    void getIdByWrongName() {
-        assertThat(genreDao.getIdByName("wrong name")).isEqualTo(-1);
     }
 
     @Test
