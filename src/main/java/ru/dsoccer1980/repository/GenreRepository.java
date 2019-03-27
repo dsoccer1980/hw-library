@@ -1,10 +1,10 @@
-package ru.dsoccer1980.dao;
+package ru.dsoccer1980.repository;
 
 import ru.dsoccer1980.domain.Genre;
 
 import java.util.List;
 
-public interface GenreDao {
+public interface GenreRepository {
 
     void insert(Genre genre);
 

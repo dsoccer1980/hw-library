@@ -1,7 +1,7 @@
 package ru.dsoccer1980.service;
 
 import org.springframework.stereotype.Service;
-import ru.dsoccer1980.dao.AuthorDao;
+import ru.dsoccer1980.repository.AuthorRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,31 +10,31 @@ import java.io.InputStreamReader;
 @Service
 public class AuthorActionServiceImpl implements AuthorActionService {
 
-    private final AuthorDao authorDao;
+    private final AuthorRepository authorRepository;
 
-    public AuthorActionServiceImpl(AuthorDao authorDao) {
-        this.authorDao = authorDao;
+    public AuthorActionServiceImpl(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
     }
 
     public void action(String type, Long id) throws IOException {
         switch (type) {
             case "--get":
-                System.out.println(authorDao.getById(id));
+                System.out.println(authorRepository.getById(id));
                 break;
             case "--getAll":
-                authorDao.getAll().forEach(System.out::println);
+                authorRepository.getAll().forEach(System.out::println);
                 break;
             case "--delete":
-                authorDao.deleteById(id);
+                authorRepository.deleteById(id);
                 break;
             case "--insert":
                 System.out.println("Please insert author name:");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                 String name = reader.readLine();
-                authorDao.insert(name);
+                authorRepository.insert(name);
                 break;
             case "--count":
-                System.out.println(authorDao.getAll().size());
+                System.out.println(authorRepository.getAll().size());
         }
     }
 }

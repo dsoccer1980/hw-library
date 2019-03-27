@@ -1,10 +1,10 @@
-package ru.dsoccer1980.dao;
+package ru.dsoccer1980.repository;
 
 import ru.dsoccer1980.domain.Author;
 
 import java.util.List;
 
-public interface AuthorDao {
+public interface AuthorRepository {
 
     void insert(Author author);
 

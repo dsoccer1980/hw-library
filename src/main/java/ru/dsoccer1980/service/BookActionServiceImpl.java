@@ -1,7 +1,7 @@
 package ru.dsoccer1980.service;
 
 import org.springframework.stereotype.Service;
-import ru.dsoccer1980.dao.BookDao;
+import ru.dsoccer1980.repository.BookRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,27 +10,27 @@ import java.io.InputStreamReader;
 @Service
 public class BookActionServiceImpl implements BookActionService {
 
-    private final BookDao bookDao;
+    private final BookRepository bookRepository;
 
-    public BookActionServiceImpl(BookDao bookDao) {
-        this.bookDao = bookDao;
+    public BookActionServiceImpl(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 
     public void action(String type, Long id) throws IOException {
         switch (type) {
             case "--get":
-                System.out.println(bookDao.getById(id));
+                System.out.println(bookRepository.getById(id));
                 break;
             case "--getAll":
-                bookDao.getAll().forEach(System.out::println);
+                bookRepository.getAll().forEach(System.out::println);
             case "--author":
-                bookDao.getByAuthorId(id).forEach(System.out::println);
+                bookRepository.getByAuthorId(id).forEach(System.out::println);
                 break;
             case "--genre":
-                bookDao.getByGenreId(id).forEach(System.out::println);
+                bookRepository.getByGenreId(id).forEach(System.out::println);
                 break;
             case "--delete":
-                bookDao.deleteById(id);
+                bookRepository.deleteById(id);
                 break;
             case "--insert":
                 System.out.println("Please insert book name:");
@@ -40,10 +40,10 @@ public class BookActionServiceImpl implements BookActionService {
                 String authorName = reader.readLine();
                 System.out.println("Please insert book genre:");
                 String geneName = reader.readLine();
-                bookDao.insert(bookName, authorName, geneName);
+                bookRepository.insert(bookName, authorName, geneName);
                 break;
             case "--count":
-                System.out.println(bookDao.getAll().size());
+                System.out.println(bookRepository.getAll().size());
         }
     }
 }

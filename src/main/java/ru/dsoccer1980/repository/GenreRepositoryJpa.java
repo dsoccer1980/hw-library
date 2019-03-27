@@ -1,56 +1,55 @@
-package ru.dsoccer1980.dao;
+package ru.dsoccer1980.repository;
 
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.dsoccer1980.domain.Author;
+import ru.dsoccer1980.domain.Genre;
 
 import javax.persistence.*;
-
 import java.util.List;
 
 @Repository
 @Transactional
-public class AuthorDaoJpa implements AuthorDao {
+public class GenreRepositoryJpa implements GenreRepository {
 
     @PersistenceContext
     private EntityManager em;
 
     @Override
-    public void insert(Author author) {
-        if (author.isNew()) {
-            em.persist(author);
+    public void insert(Genre genre) {
+        if (genre.isNew()) {
+            em.persist(genre);
         } else {
-            em.merge(author);
+            em.merge(genre);
         }
     }
 
     @Override
     public void insert(String name) {
-        em.persist(new Author(name));
+        em.persist(new Genre(name));
     }
 
     @Override
-    public Author getById(long id) {
-        return em.find(Author.class, id);
+    public Genre getById(long id) {
+        return em.find(Genre.class, id);
     }
 
     @Override
-    public List<Author> getAll() {
-        TypedQuery<Author> query = em.createQuery("SELECT a FROM Author a", Author.class);
+    public List<Genre> getAll() {
+        TypedQuery<Genre> query = em.createQuery("SELECT g FROM Genre g", Genre.class);
         return query.getResultList();
     }
 
     @Override
     public void deleteById(long id) {
-        Query query = em.createQuery("DELETE FROM Author a WHERE a.id=:id");
+        Query query = em.createQuery("DELETE FROM Genre g WHERE g.id=:id");
         query.setParameter("id", id);
         query.executeUpdate();
     }
 
     @Override
-    public Author getByName(String name) {
-        TypedQuery<Author> query = em.createQuery("SELECT a FROM Author a WHERE a.name=:name", Author.class);
+    public Genre getByName(String name) {
+        TypedQuery<Genre> query = em.createQuery("SELECT g FROM Genre g WHERE g.name=:name", Genre.class);
         query.setParameter("name", name);
         try {
             return query.getSingleResult();
@@ -58,5 +57,4 @@ public class AuthorDaoJpa implements AuthorDao {
             return null;
         }
     }
-
 }

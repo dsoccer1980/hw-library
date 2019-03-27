@@ -1,4 +1,4 @@
-package ru.dsoccer1980.dao;
+package ru.dsoccer1980.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class CommentDaoJpa implements CommentDao {
+public class CommentRepositoryJpa implements CommentRepository {
 
     @PersistenceContext
     private EntityManager em;

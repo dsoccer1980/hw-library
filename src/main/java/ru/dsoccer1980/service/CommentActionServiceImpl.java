@@ -1,26 +1,26 @@
 package ru.dsoccer1980.service;
 
 import org.springframework.stereotype.Service;
-import ru.dsoccer1980.dao.CommentDao;
+import ru.dsoccer1980.repository.CommentRepository;
 import java.io.IOException;
 
 @Service
 public class CommentActionServiceImpl implements CommentActionService {
 
-    private CommentDao commentDao;
+    private CommentRepository commentRepository;
 
-    public CommentActionServiceImpl(CommentDao commentDao) {
-        this.commentDao = commentDao;
+    public CommentActionServiceImpl(CommentRepository commentRepository) {
+        this.commentRepository = commentRepository;
     }
 
     @Override
     public void action(String type, String content, Long book_id) throws IOException {
         switch (type) {
             case "--insert":
-                commentDao.insert(content, book_id);
+                commentRepository.insert(content, book_id);
                 break;
             case "--get":
-                System.out.println(commentDao.getByBookId(book_id));
+                System.out.println(commentRepository.getByBookId(book_id));
                 break;
         }
 

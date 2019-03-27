@@ -1,10 +1,10 @@
-package ru.dsoccer1980.dao;
+package ru.dsoccer1980.repository;
 
 import ru.dsoccer1980.domain.Comment;
 
 import java.util.List;
 
-public interface CommentDao {
+public interface CommentRepository {
 
     void insert(Comment comment, Long bookId);
 

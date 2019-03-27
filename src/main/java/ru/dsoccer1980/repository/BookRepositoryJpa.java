@@ -1,4 +1,4 @@
-package ru.dsoccer1980.dao;
+package ru.dsoccer1980.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,17 +14,17 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class BookDaoJpa implements BookDao {
+public class BookRepositoryJpa implements BookRepository {
 
     @PersistenceContext
     private EntityManager em;
 
-    private AuthorDao authorDao;
-    private GenreDao genreDao;
+    private AuthorRepository authorRepository;
+    private GenreRepository genreRepository;
 
-    public BookDaoJpa(AuthorDao authorDao, GenreDao genreDao) {
-        this.authorDao = authorDao;
-        this.genreDao = genreDao;
+    public BookRepositoryJpa(AuthorRepository authorRepository, GenreRepository genreRepository) {
+        this.authorRepository = authorRepository;
+        this.genreRepository = genreRepository;
     }
 
     private final String QUERY_SELECT = "SELECT b FROM Book b LEFT JOIN Author a ON b.author.id =a.id LEFT JOIN Genre g ON b.genre.id=g.id";
@@ -47,15 +47,15 @@ public class BookDaoJpa implements BookDao {
 
     @Override
     public void insert(String bookName, String authorName, String genreName) {
-        Genre genre = genreDao.getByName(genreName);
+        Genre genre = genreRepository.getByName(genreName);
         if (genre == null) {
-            genreDao.insert(genreName);
-            genre = genreDao.getByName(genreName);
+            genreRepository.insert(genreName);
+            genre = genreRepository.getByName(genreName);
         }
-        Author author = authorDao.getByName(authorName);
+        Author author = authorRepository.getByName(authorName);
         if (author == null) {
-            authorDao.insert(authorName);
-            author = authorDao.getByName(authorName);
+            authorRepository.insert(authorName);
+            author = authorRepository.getByName(authorName);
         }
 
         insert(new Book(bookName, author, genre));

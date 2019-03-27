@@ -1,10 +1,10 @@
-package ru.dsoccer1980.dao;
+package ru.dsoccer1980.repository;
 
 import ru.dsoccer1980.domain.Book;
 
 import java.util.List;
 
-public interface BookDao {
+public interface BookRepository {
 
     Book getById(long id);
 
