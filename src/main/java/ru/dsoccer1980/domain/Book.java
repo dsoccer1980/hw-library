@@ -1,6 +1,7 @@
 package ru.dsoccer1980.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Book {
@@ -16,6 +17,9 @@ public class Book {
     @OneToOne
     @JoinColumn(name = "genre_id")
     private Genre genre;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Comment> comments;
 
     public Book() {
     }
