@@ -10,11 +10,11 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.dsoccer1980.util.ConfigurableInputStream;
+import ru.dsoccer1980.util.Util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.dsoccer1980.TestData.*;
@@ -41,13 +41,13 @@ class GenreActionServiceImplTest {
     @Test
     void actionGet() throws IOException {
         genreActionService.action("--get", GENRE1.getId());
-        assertThat(getData()).isEqualTo(GENRE1.toString());
+        assertThat(Util.getData(out)).isEqualTo(GENRE1.toString());
     }
 
     @Test
     void actionGetAll() throws IOException {
         genreActionService.action("--getAll", -1L);
-        assertThat(getData()).isEqualTo((GENRE1.toString() + GENRE2));
+        assertThat(Util.getData(out)).isEqualTo((GENRE1.toString() + GENRE2));
     }
 
     @Test
@@ -55,13 +55,13 @@ class GenreActionServiceImplTest {
         genreActionService.action("--delete", GENRE1.getId());
         out.reset();
         genreActionService.action("--getAll", -1L);
-        assertThat(getData()).isEqualTo((GENRE2.toString()));
+        assertThat(Util.getData(out)).isEqualTo((GENRE2.toString()));
     }
 
     @Test
     void actionCount() throws IOException {
         genreActionService.action("--count", -1L);
-        assertThat(getData()).isEqualTo("2");
+        assertThat(Util.getData(out)).isEqualTo("2");
     }
 
     @Test
@@ -71,10 +71,6 @@ class GenreActionServiceImplTest {
 
         out.reset();
         genreActionService.action("--count", -1L);
-        assertThat(getData()).isEqualTo("3");
-    }
-
-    private String getData() {
-        return new String(out.toByteArray(), StandardCharsets.UTF_8).replaceAll("[\\r\\n]+", "");
+        assertThat(Util.getData(out)).isEqualTo("3");
     }
 }

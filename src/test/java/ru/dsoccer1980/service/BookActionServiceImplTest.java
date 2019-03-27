@@ -11,12 +11,12 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.dsoccer1980.util.ConfigurableInputStream;
+import ru.dsoccer1980.util.Util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 
 import static ru.dsoccer1980.TestData.*;
 
@@ -43,38 +43,38 @@ class BookActionServiceImplTest {
     @Test
     void actionGet() throws IOException {
         bookActionService.action("--get", BOOK1.getId());
-        assertThat(getData()).isEqualTo(BOOK1.toString());
+        assertThat(Util.getData(out)).isEqualTo(BOOK1.toString());
     }
 
     @Test
     void actionGetAll() throws IOException {
         bookActionService.action("--getAll", -1L);
-        assertThat(getData()).isEqualTo((BOOK1.toString() + BOOK2 + BOOK3));
+        assertThat(Util.getData(out)).isEqualTo((BOOK1.toString() + BOOK2 + BOOK3));
     }
 
     @Test
     void actionGetByAuthor() throws IOException {
         bookActionService.action("--author", BOOK1.getAuthor().getId());
-        assertThat(getData()).isEqualTo(BOOK1.toString());
+        assertThat(Util.getData(out)).isEqualTo(BOOK1.toString());
     }
 
     @Test
     void actionGetByGenre() throws IOException {
         bookActionService.action("--genre", BOOK1.getGenre().getId());
-        assertThat(getData()).isEqualTo(BOOK1.toString() + BOOK2);
+        assertThat(Util.getData(out)).isEqualTo(BOOK1.toString() + BOOK2);
     }
 
     @Test
     void actionDelete() throws IOException {
         bookActionService.action("--delete", BOOK1.getId());
         bookActionService.action("--getAll", -1L);
-        assertThat(getData()).isEqualTo((BOOK2.toString() + BOOK3));
+        assertThat(Util.getData(out)).isEqualTo((BOOK2.toString() + BOOK3));
     }
 
     @Test
     void actionCount() throws IOException {
         bookActionService.action("--count", -1L);
-        assertThat(getData()).isEqualTo("3");
+        assertThat(Util.getData(out)).isEqualTo("3");
     }
 
     @Test
@@ -86,12 +86,7 @@ class BookActionServiceImplTest {
 
         out.reset();
         bookActionService.action("--count", -1L);
-        assertThat(getData()).isEqualTo("4");
-    }
-
-
-    private String getData() {
-        return new String(out.toByteArray(), StandardCharsets.UTF_8).replaceAll("[\\r\\n]+", "");
+        assertThat(Util.getData(out)).isEqualTo("4");
     }
 
 }

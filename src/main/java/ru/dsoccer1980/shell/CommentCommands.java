@@ -25,6 +25,5 @@ public class CommentCommands {
 
         commentActionService.action(action, content, book_id);
     }
-
 }
 
