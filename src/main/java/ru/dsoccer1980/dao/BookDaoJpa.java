@@ -17,7 +17,7 @@ import java.util.List;
 public class BookDaoJpa implements BookDao {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager em;
 
     private AuthorDao authorDao;
     private GenreDao genreDao;
@@ -31,7 +31,7 @@ public class BookDaoJpa implements BookDao {
 
     @Override
     public Book getById(long id) {
-        TypedQuery<Book> query = entityManager.createQuery(QUERY_SELECT + " WHERE b.id=:id", Book.class);
+        TypedQuery<Book> query = em.createQuery(QUERY_SELECT + " WHERE b.id=:id", Book.class);
         query.setParameter("id", id);
         return query.getSingleResult();
     }
@@ -39,9 +39,9 @@ public class BookDaoJpa implements BookDao {
     @Override
     public void insert(Book book) {
         if (book.isNew()) {
-            entityManager.persist(book);
+            em.persist(book);
         } else {
-            entityManager.merge(book);
+            em.merge(book);
         }
     }
 
@@ -63,27 +63,27 @@ public class BookDaoJpa implements BookDao {
 
     @Override
     public List<Book> getAll() {
-        TypedQuery<Book> query = entityManager.createQuery(QUERY_SELECT, Book.class);
+        TypedQuery<Book> query = em.createQuery(QUERY_SELECT, Book.class);
         return query.getResultList();
     }
 
     @Override
     public void deleteById(long id) {
-        Query query = entityManager.createQuery("DELETE FROM Book b WHERE b.id=:id");
+        Query query = em.createQuery("DELETE FROM Book b WHERE b.id=:id");
         query.setParameter("id", id);
         query.executeUpdate();
     }
 
     @Override
     public List<Book> getByAuthorId(long id) {
-        TypedQuery<Book> query = entityManager.createQuery(QUERY_SELECT + " WHERE a.id=:id", Book.class);
+        TypedQuery<Book> query = em.createQuery(QUERY_SELECT + " WHERE a.id=:id", Book.class);
         query.setParameter("id", id);
         return query.getResultList();
     }
 
     @Override
     public List<Book> getByGenreId(long id) {
-        TypedQuery<Book> query = entityManager.createQuery(QUERY_SELECT + " WHERE g.id=:id", Book.class);
+        TypedQuery<Book> query = em.createQuery(QUERY_SELECT + " WHERE g.id=:id", Book.class);
         query.setParameter("id", id);
         return query.getResultList();
     }

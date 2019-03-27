@@ -14,43 +14,43 @@ import java.util.List;
 public class AuthorDaoJpa implements AuthorDao {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager em;
 
     @Override
     public void insert(Author author) {
         if (author.isNew()) {
-            entityManager.persist(author);
+            em.persist(author);
         } else {
-            entityManager.merge(author);
+            em.merge(author);
         }
     }
 
     @Override
     public void insert(String name) {
-        entityManager.persist(new Author(name));
+        em.persist(new Author(name));
     }
 
     @Override
     public Author getById(long id) {
-        return entityManager.find(Author.class, id);
+        return em.find(Author.class, id);
     }
 
     @Override
     public List<Author> getAll() {
-        TypedQuery<Author> query = entityManager.createQuery("SELECT a FROM Author a", Author.class);
+        TypedQuery<Author> query = em.createQuery("SELECT a FROM Author a", Author.class);
         return query.getResultList();
     }
 
     @Override
     public void deleteById(long id) {
-        Query query = entityManager.createQuery("DELETE FROM Author a WHERE a.id=:id");
+        Query query = em.createQuery("DELETE FROM Author a WHERE a.id=:id");
         query.setParameter("id", id);
         query.executeUpdate();
     }
 
     @Override
     public Author getByName(String name) {
-        TypedQuery<Author> query = entityManager.createQuery("SELECT a FROM Author a WHERE a.name=:name", Author.class);
+        TypedQuery<Author> query = em.createQuery("SELECT a FROM Author a WHERE a.name=:name", Author.class);
         query.setParameter("name", name);
         try {
             return query.getSingleResult();

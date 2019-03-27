@@ -13,43 +13,43 @@ import java.util.List;
 public class GenreDaoJpa implements GenreDao {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager em;
 
     @Override
     public void insert(Genre genre) {
         if (genre.isNew()) {
-            entityManager.persist(genre);
+            em.persist(genre);
         } else {
-            entityManager.merge(genre);
+            em.merge(genre);
         }
     }
 
     @Override
     public void insert(String name) {
-        entityManager.persist(new Genre(name));
+        em.persist(new Genre(name));
     }
 
     @Override
     public Genre getById(long id) {
-        return entityManager.find(Genre.class, id);
+        return em.find(Genre.class, id);
     }
 
     @Override
     public List<Genre> getAll() {
-        TypedQuery<Genre> query = entityManager.createQuery("SELECT g FROM Genre g", Genre.class);
+        TypedQuery<Genre> query = em.createQuery("SELECT g FROM Genre g", Genre.class);
         return query.getResultList();
     }
 
     @Override
     public void deleteById(long id) {
-        Query query = entityManager.createQuery("DELETE FROM Genre g WHERE g.id=:id");
+        Query query = em.createQuery("DELETE FROM Genre g WHERE g.id=:id");
         query.setParameter("id", id);
         query.executeUpdate();
     }
 
     @Override
     public Genre getByName(String name) {
-        TypedQuery<Genre> query = entityManager.createQuery("SELECT g FROM Genre g WHERE g.name=:name", Genre.class);
+        TypedQuery<Genre> query = em.createQuery("SELECT g FROM Genre g WHERE g.name=:name", Genre.class);
         query.setParameter("name", name);
         try {
             return query.getSingleResult();
