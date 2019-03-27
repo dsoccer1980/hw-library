@@ -2,6 +2,7 @@ package ru.dsoccer1980;
 
 import ru.dsoccer1980.domain.Author;
 import ru.dsoccer1980.domain.Book;
+import ru.dsoccer1980.domain.Comment;
 import ru.dsoccer1980.domain.Genre;
 
 public class TestData {
@@ -17,4 +18,5 @@ public class TestData {
     public static final Book BOOK2 = new Book(101, "Машина времени", AUTHOR2, GENRE1);
     public static final Book BOOK3 = new Book(102, "Онегин", AUTHOR3, GENRE2);
     public static final Book NEW_BOOK = new Book(103, "Новая книга", AUTHOR3, GENRE2);
+    public static final Comment COMMENT1 = new Comment(1000, "Комментарий один");
 }
