@@ -20,7 +20,7 @@ public class CommentRepositoryJpa implements CommentRepository {
     @Override
     public void insert(Comment comment, Long bookId) {
         comment.setBook(em.getReference(Book.class, bookId));
-        if (comment.isNew()) {
+        if (comment.hasNullId()) {
             em.persist(comment);
         } else {
             em.merge(comment);

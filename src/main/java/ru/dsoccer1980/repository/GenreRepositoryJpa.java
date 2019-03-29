@@ -17,7 +17,7 @@ public class GenreRepositoryJpa implements GenreRepository {
 
     @Override
     public void insert(Genre genre) {
-        if (genre.isNew()) {
+        if (genre.hasNullId()) {
             em.persist(genre);
         } else {
             em.merge(genre);

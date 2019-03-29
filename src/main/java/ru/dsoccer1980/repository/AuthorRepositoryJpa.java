@@ -18,7 +18,7 @@ public class AuthorRepositoryJpa implements AuthorRepository {
 
     @Override
     public void insert(Author author) {
-        if (author.isNew()) {
+        if (author.hasNullId()) {
             em.persist(author);
         } else {
             em.merge(author);

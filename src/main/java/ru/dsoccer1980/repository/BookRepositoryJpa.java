@@ -38,7 +38,7 @@ public class BookRepositoryJpa implements BookRepository {
 
     @Override
     public void insert(Book book) {
-        if (book.isNew()) {
+        if (book.hasNullId()) {
             em.persist(book);
         } else {
             em.merge(book);

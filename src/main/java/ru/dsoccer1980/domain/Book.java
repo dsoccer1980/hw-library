@@ -53,7 +53,7 @@ public class Book {
         return genre;
     }
 
-    public boolean isNew() {
+    public boolean hasNullId() {
         return this.id == null;
     }
 

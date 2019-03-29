@@ -33,7 +33,7 @@ public class Genre {
         return name;
     }
 
-    public boolean isNew() {
+    public boolean hasNullId() {
         return this.id == null;
     }
 

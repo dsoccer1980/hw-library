@@ -32,7 +32,7 @@ public class Author {
         return name;
     }
 
-    public boolean isNew() {
+    public boolean hasNullId() {
         return this.id == null;
     }
 

@@ -33,7 +33,7 @@ public class Comment {
         return content;
     }
 
-    public boolean isNew() {
+    public boolean hasNullId() {
         return this.id == null;
     }
 
