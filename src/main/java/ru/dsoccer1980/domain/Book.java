@@ -18,9 +18,6 @@ public class Book {
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Comment> comments;
-
     public Book() {
     }
 
