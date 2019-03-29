@@ -28,7 +28,7 @@ public class AuthorRepositoryJpa implements AuthorRepository {
 
     @Override
     public Optional<Author> getById(long id) {
-        return Optional.of(em.find(Author.class, id));
+        return Optional.ofNullable(em.find(Author.class, id));
     }
 
     @Override
@@ -57,8 +57,7 @@ public class AuthorRepositoryJpa implements AuthorRepository {
 
     @Override
     public Author getByNameOrElseCreate(String name) {
-        Optional<Author> author = getByName(name);
-        return author.orElse(insert(new Author(name)));
+        return getByName(name).orElse(insert(new Author(name)));
     }
 
 }

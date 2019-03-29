@@ -3,6 +3,7 @@ package ru.dsoccer1980.service;
 import org.springframework.stereotype.Service;
 import ru.dsoccer1980.domain.Genre;
 import ru.dsoccer1980.repository.GenreRepository;
+import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class GenreActionServiceImpl implements GenreActionService {
     public void action(String type, Long id) throws IOException {
         switch (type) {
             case "--get":
-                System.out.println(genreRepository.getById(id));
+                System.out.println(genreRepository.getById(id).orElseThrow(() -> new NotFoundException("Genre not found")));
                 break;
             case "--getAll":
                 genreRepository.getAll().forEach(System.out::println);

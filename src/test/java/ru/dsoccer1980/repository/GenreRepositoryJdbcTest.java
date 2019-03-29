@@ -1,15 +1,17 @@
 package ru.dsoccer1980.repository;
 
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import ru.dsoccer1980.domain.Genre;
+import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.dsoccer1980.TestData.*;
 
 
@@ -28,19 +30,21 @@ public class GenreRepositoryJdbcTest {
 
     @Test
     void getById() {
-        assertThat(genreRepository.getById(GENRE1.getId()).getId()).isEqualTo(GENRE1.getId());
+        Genre genre = genreRepository.getById(GENRE1.getId()).orElseThrow(() -> new NotFoundException("Genre not found"));
+        assertThat(genre.getId()).isEqualTo(GENRE1.getId());
     }
 
     @Test
     void getByWrongId() {
-        assertThat(genreRepository.getById(-1)).isEqualTo(null);
+        assertThrows(NotFoundException.class, () -> genreRepository.getById(-1).orElseThrow(() -> new NotFoundException("Genre not found")));
     }
 
     @Test
     void insert() {
         int sizeBeforeInsert = genreRepository.getAll().size();
         genreRepository.insert(NEW_GENRE);
-        assertThat(genreRepository.getById(NEW_GENRE.getId()).getId()).isEqualTo(NEW_GENRE.getId());
+        Genre newGenre = genreRepository.getById(NEW_GENRE.getId()).orElseThrow(() -> new NotFoundException("Genre not found"));
+        assertThat(newGenre.getId()).isEqualTo(NEW_GENRE.getId());
         assertThat(genreRepository.getAll().size()).isEqualTo(sizeBeforeInsert + 1);
     }
 

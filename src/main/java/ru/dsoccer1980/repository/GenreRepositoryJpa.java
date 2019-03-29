@@ -7,6 +7,7 @@ import ru.dsoccer1980.domain.Genre;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional
@@ -26,8 +27,8 @@ public class GenreRepositoryJpa implements GenreRepository {
     }
 
     @Override
-    public Genre getById(long id) {
-        return em.find(Genre.class, id);
+    public Optional<Genre> getById(long id) {
+        return Optional.ofNullable(em.find(Genre.class, id));
     }
 
     @Override
@@ -44,22 +45,18 @@ public class GenreRepositoryJpa implements GenreRepository {
     }
 
     @Override
-    public Genre getByName(String name) {
+    public Optional<Genre> getByName(String name) {
         TypedQuery<Genre> query = em.createQuery("SELECT g FROM Genre g WHERE g.name=:name", Genre.class);
         query.setParameter("name", name);
         try {
-            return query.getSingleResult();
+            return Optional.of(query.getSingleResult());
         } catch (NoResultException e) {
-            return null;
+            return Optional.empty();
         }
     }
 
     @Override
     public Genre getByNameOrElseCreate(String name) {
-        Genre genre = getByName(name);
-        if (genre == null) {
-            return insert(new Genre(name));
-        }
-        return genre;
+        return getByName(name).orElse(insert(new Genre(name)));
     }
 }

@@ -36,7 +36,7 @@ public class AuthorRepositoryImplTest {
 
     @Test
     void getByWrongId() {
-        assertThrows(RuntimeException.class, () -> authorRepository.getById(-1).orElseThrow(() -> new NotFoundException("Author not found")));
+        assertThrows(NotFoundException.class, () -> authorRepository.getById(-1).orElseThrow(() -> new NotFoundException("Author not found")));
     }
 
     @Test
