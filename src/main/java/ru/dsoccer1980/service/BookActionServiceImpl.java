@@ -5,6 +5,7 @@ import ru.dsoccer1980.domain.Book;
 import ru.dsoccer1980.repository.AuthorRepository;
 import ru.dsoccer1980.repository.BookRepository;
 import ru.dsoccer1980.repository.GenreRepository;
+import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class BookActionServiceImpl implements BookActionService {
     public void action(String type, Long id) throws IOException {
         switch (type) {
             case "--get":
-                System.out.println(bookRepository.getById(id));
+                System.out.println(bookRepository.getById(id).orElseThrow(() -> new NotFoundException("Book not found")));
                 break;
             case "--getAll":
                 bookRepository.getAll().forEach(System.out::println);

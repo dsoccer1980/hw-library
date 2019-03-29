@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-
+import ru.dsoccer1980.domain.Book;
+import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.dsoccer1980.TestData.*;
 
 @DataJpaTest
@@ -27,7 +29,13 @@ public class BookRepositoryImplTest {
 
     @Test
     void getById() {
-        assertThat(bookRepository.getById(BOOK1.getId()).getId()).isEqualTo(BOOK1.getId());
+        Book book = bookRepository.getById(BOOK1.getId()).orElseThrow(() -> new NotFoundException("Book not found"));
+        assertThat(book.getId()).isEqualTo(BOOK1.getId());
+    }
+
+    @Test
+    void getByWrongId() {
+        assertThrows(NotFoundException.class, () -> bookRepository.getById(-1).orElseThrow(() -> new NotFoundException("Book not found")));
     }
 
     @Test

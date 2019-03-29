@@ -4,11 +4,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.dsoccer1980.domain.Book;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional
@@ -20,10 +18,14 @@ public class BookRepositoryJpa implements BookRepository {
     private EntityManager em;
 
     @Override
-    public Book getById(long id) {
+    public Optional<Book> getById(long id) {
         TypedQuery<Book> query = em.createQuery(QUERY_SELECT + " WHERE b.id=:id", Book.class);
         query.setParameter("id", id);
-        return query.getSingleResult();
+        try {
+            return Optional.of(query.getSingleResult());
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
