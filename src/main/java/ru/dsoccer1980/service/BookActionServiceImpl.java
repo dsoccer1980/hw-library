@@ -23,6 +23,7 @@ public class BookActionServiceImpl implements BookActionService {
                 break;
             case "--getAll":
                 bookRepository.getAll().forEach(System.out::println);
+                break;
             case "--author":
                 bookRepository.getByAuthorId(id).forEach(System.out::println);
                 break;
