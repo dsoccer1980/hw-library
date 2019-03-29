@@ -49,13 +49,6 @@ public class AuthorRepositoryImplTest {
     }
 
     @Test
-    void insertName() {
-        int sizeBeforeInsert = authorRepository.getAll().size();
-        authorRepository.insert(NEW_AUTHOR);
-        assertThat(authorRepository.getAll().size()).isEqualTo(sizeBeforeInsert + 1);
-    }
-
-    @Test
     void deleteById() {
         int sizeBeforeDelete = authorRepository.getAll().size();
         authorRepository.deleteById(AUTHOR2.getId());

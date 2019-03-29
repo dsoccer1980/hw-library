@@ -49,13 +49,6 @@ public class GenreRepositoryJdbcTest {
     }
 
     @Test
-    void insertName() {
-        int sizeBeforeInsert = genreRepository.getAll().size();
-        genreRepository.insert(NEW_GENRE);
-        assertThat(genreRepository.getAll().size()).isEqualTo(sizeBeforeInsert + 1);
-    }
-
-    @Test
     void deleteById() {
         int sizeBeforeDelete = genreRepository.getAll().size();
         genreRepository.deleteById(GENRE1.getId());

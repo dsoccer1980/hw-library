@@ -8,7 +8,5 @@ public interface CommentRepository {
 
     void insert(Comment comment, Long bookId);
 
-    void insert(String content, Long bookId);
-
     List<Comment> getByBookId(Long bookId);
 }

@@ -28,11 +28,6 @@ public class CommentRepositoryJpa implements CommentRepository {
     }
 
     @Override
-    public void insert(String content, Long bookId) {
-        insert(new Comment(content), bookId);
-    }
-
-    @Override
     public List<Comment> getByBookId(Long bookId) {
         TypedQuery<Comment> query = em.createQuery("SELECT c FROM Comment c JOIN FETCH c.book WHERE c.book.id=:bookId", Comment.class);
         query.setParameter("bookId", bookId);

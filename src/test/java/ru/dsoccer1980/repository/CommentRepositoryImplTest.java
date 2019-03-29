@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import ru.dsoccer1980.domain.Comment;
 
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.dsoccer1980.TestData.*;
+import static ru.dsoccer1980.TestData.BOOK1;
+import static ru.dsoccer1980.TestData.COMMENT1;
 
 @DataJpaTest
 @Import(CommentRepositoryJpa.class)
@@ -28,15 +29,8 @@ public class CommentRepositoryImplTest {
     }
 
     @Test
-    void insertContent() {
-        commentRepository.insert(COMMENT1.getContent(), BOOK1.getId());
-        assertThat(commentRepository.getByBookId(BOOK1.getId()).size()).isEqualTo(1);
-    }
-
-    @Test
-    void insertNewComment() {
-        commentRepository.insert(new Comment("comment"), BOOK1.getId());
-        assertThat(commentRepository.getByBookId(BOOK1.getId()).size()).isEqualTo(1);
+    void getByWrongBookId() {
+        assertThat(commentRepository.getByBookId(-1L)).isEqualTo(Collections.emptyList());
     }
 
 
