@@ -47,7 +47,7 @@ public class GenreRepositoryJdbcTest {
     @Test
     void insertName() {
         int sizeBeforeInsert = genreRepository.getAll().size();
-        genreRepository.insert(NEW_AUTHOR.getName());
+        genreRepository.insert(NEW_GENRE);
         assertThat(genreRepository.getAll().size()).isEqualTo(sizeBeforeInsert + 1);
     }
 
@@ -58,8 +58,5 @@ public class GenreRepositoryJdbcTest {
         assertThat(genreRepository.getAll().size()).isEqualTo(sizeBeforeDelete - 1);
     }
 
-    @Test
-    void contexLoads() throws Exception {
-    }
 
 }

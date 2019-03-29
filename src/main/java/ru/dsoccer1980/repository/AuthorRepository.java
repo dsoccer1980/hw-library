@@ -6,9 +6,7 @@ import java.util.List;
 
 public interface AuthorRepository {
 
-    void insert(Author author);
-
-    void insert(String name);
+    Author insert(Author author);
 
     Author getById(long id);
 
@@ -17,5 +15,7 @@ public interface AuthorRepository {
     void deleteById(long id);
 
     Author getByName(String name);
+
+    Author getByNameOrElseCreate(String name);
 
 }

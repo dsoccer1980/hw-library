@@ -16,17 +16,13 @@ public class GenreRepositoryJpa implements GenreRepository {
     private EntityManager em;
 
     @Override
-    public void insert(Genre genre) {
+    public Genre insert(Genre genre) {
         if (genre.hasNullId()) {
             em.persist(genre);
+            return genre;
         } else {
-            em.merge(genre);
+            return em.merge(genre);
         }
-    }
-
-    @Override
-    public void insert(String name) {
-        em.persist(new Genre(name));
     }
 
     @Override
@@ -56,5 +52,14 @@ public class GenreRepositoryJpa implements GenreRepository {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    @Override
+    public Genre getByNameOrElseCreate(String name) {
+        Genre genre = getByName(name);
+        if (genre == null) {
+            return insert(new Genre(name));
+        }
+        return genre;
     }
 }

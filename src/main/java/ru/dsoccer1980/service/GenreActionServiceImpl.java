@@ -1,6 +1,7 @@
 package ru.dsoccer1980.service;
 
 import org.springframework.stereotype.Service;
+import ru.dsoccer1980.domain.Genre;
 import ru.dsoccer1980.repository.GenreRepository;
 
 import java.io.BufferedReader;
@@ -31,7 +32,7 @@ public class GenreActionServiceImpl implements GenreActionService {
                 System.out.println("Please insert genre name:");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                 String name = reader.readLine();
-                genreRepository.insert(name);
+                genreRepository.insert(new Genre(name));
                 break;
             case "--count":
                 System.out.println(genreRepository.getAll().size());

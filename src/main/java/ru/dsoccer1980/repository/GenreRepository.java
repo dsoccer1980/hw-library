@@ -6,9 +6,7 @@ import java.util.List;
 
 public interface GenreRepository {
 
-    void insert(Genre genre);
-
-    void insert(String name);
+    Genre insert(Genre genre);
 
     Genre getById(long id);
 
@@ -18,4 +16,5 @@ public interface GenreRepository {
 
     Genre getByName(String name);
 
+    Genre getByNameOrElseCreate(String name);
 }

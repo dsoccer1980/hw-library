@@ -10,8 +10,6 @@ public interface BookRepository {
 
     void insert(Book book);
 
-    void insert(String bookName, String authorName, String genreName);
-
     List<Book> getAll();
 
     void deleteById(long id);

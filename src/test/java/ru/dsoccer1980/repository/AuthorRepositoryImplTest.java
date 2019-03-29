@@ -48,7 +48,7 @@ public class AuthorRepositoryImplTest {
     @Test
     void insertName() {
         int sizeBeforeInsert = authorRepository.getAll().size();
-        authorRepository.insert(NEW_AUTHOR.getName());
+        authorRepository.insert(NEW_AUTHOR);
         assertThat(authorRepository.getAll().size()).isEqualTo(sizeBeforeInsert + 1);
     }
 
@@ -59,8 +59,5 @@ public class AuthorRepositoryImplTest {
         assertThat(authorRepository.getAll().size()).isEqualTo(sizeBeforeDelete - 1);
     }
 
-    @Test
-    void contexLoads() throws Exception {
-    }
 
 }

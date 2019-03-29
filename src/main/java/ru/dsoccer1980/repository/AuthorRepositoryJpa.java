@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.dsoccer1980.domain.Author;
 
 import javax.persistence.*;
-
 import java.util.List;
 
 @Repository
@@ -17,17 +16,13 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     private EntityManager em;
 
     @Override
-    public void insert(Author author) {
+    public Author insert(Author author) {
         if (author.hasNullId()) {
             em.persist(author);
+            return author;
         } else {
-            em.merge(author);
+            return em.merge(author);
         }
-    }
-
-    @Override
-    public void insert(String name) {
-        em.persist(new Author(name));
     }
 
     @Override
@@ -57,6 +52,15 @@ public class AuthorRepositoryJpa implements AuthorRepository {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    @Override
+    public Author getByNameOrElseCreate(String name) {
+        Author author = getByName(name);
+        if (author == null) {
+            return insert(new Author(name));
+        }
+        return author;
     }
 
 }

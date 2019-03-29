@@ -2,9 +2,7 @@ package ru.dsoccer1980.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.dsoccer1980.domain.Author;
 import ru.dsoccer1980.domain.Book;
-import ru.dsoccer1980.domain.Genre;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,18 +14,10 @@ import java.util.List;
 @Transactional
 public class BookRepositoryJpa implements BookRepository {
 
+    private final String QUERY_SELECT = "SELECT b FROM Book b LEFT JOIN Author a ON b.author.id =a.id LEFT JOIN Genre g ON b.genre.id=g.id";
+
     @PersistenceContext
     private EntityManager em;
-
-    private AuthorRepository authorRepository;
-    private GenreRepository genreRepository;
-
-    public BookRepositoryJpa(AuthorRepository authorRepository, GenreRepository genreRepository) {
-        this.authorRepository = authorRepository;
-        this.genreRepository = genreRepository;
-    }
-
-    private final String QUERY_SELECT = "SELECT b FROM Book b LEFT JOIN Author a ON b.author.id =a.id LEFT JOIN Genre g ON b.genre.id=g.id";
 
     @Override
     public Book getById(long id) {
@@ -43,22 +33,6 @@ public class BookRepositoryJpa implements BookRepository {
         } else {
             em.merge(book);
         }
-    }
-
-    @Override
-    public void insert(String bookName, String authorName, String genreName) {
-        Genre genre = genreRepository.getByName(genreName);
-        if (genre == null) {
-            genreRepository.insert(genreName);
-            genre = genreRepository.getByName(genreName);
-        }
-        Author author = authorRepository.getByName(authorName);
-        if (author == null) {
-            authorRepository.insert(authorName);
-            author = authorRepository.getByName(authorName);
-        }
-
-        insert(new Book(bookName, author, genre));
     }
 
     @Override

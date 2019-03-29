@@ -1,7 +1,10 @@
 package ru.dsoccer1980.service;
 
 import org.springframework.stereotype.Service;
+import ru.dsoccer1980.domain.Book;
+import ru.dsoccer1980.repository.AuthorRepository;
 import ru.dsoccer1980.repository.BookRepository;
+import ru.dsoccer1980.repository.GenreRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,9 +14,13 @@ import java.io.InputStreamReader;
 public class BookActionServiceImpl implements BookActionService {
 
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
+    private final GenreRepository genreRepository;
 
-    public BookActionServiceImpl(BookRepository bookRepository) {
+    public BookActionServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository, GenreRepository genreRepository) {
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
+        this.genreRepository = genreRepository;
     }
 
     public void action(String type, Long id) throws IOException {
@@ -41,7 +48,11 @@ public class BookActionServiceImpl implements BookActionService {
                 String authorName = reader.readLine();
                 System.out.println("Please insert book genre:");
                 String geneName = reader.readLine();
-                bookRepository.insert(bookName, authorName, geneName);
+                bookRepository.insert(
+                        new Book(
+                                bookName,
+                                authorRepository.getByNameOrElseCreate(authorName),
+                                genreRepository.getByNameOrElseCreate(geneName)));
                 break;
             case "--count":
                 System.out.println(bookRepository.getAll().size());
