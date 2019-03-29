@@ -7,6 +7,7 @@ import ru.dsoccer1980.domain.Author;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional
@@ -26,8 +27,8 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     }
 
     @Override
-    public Author getById(long id) {
-        return em.find(Author.class, id);
+    public Optional<Author> getById(long id) {
+        return Optional.of(em.find(Author.class, id));
     }
 
     @Override
@@ -44,23 +45,20 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     }
 
     @Override
-    public Author getByName(String name) {
+    public Optional<Author> getByName(String name) {
         TypedQuery<Author> query = em.createQuery("SELECT a FROM Author a WHERE a.name=:name", Author.class);
         query.setParameter("name", name);
         try {
-            return query.getSingleResult();
+            return Optional.of(query.getSingleResult());
         } catch (NoResultException e) {
-            return null;
+            return Optional.empty();
         }
     }
 
     @Override
     public Author getByNameOrElseCreate(String name) {
-        Author author = getByName(name);
-        if (author == null) {
-            return insert(new Author(name));
-        }
-        return author;
+        Optional<Author> author = getByName(name);
+        return author.orElse(insert(new Author(name)));
     }
 
 }

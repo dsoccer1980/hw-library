@@ -3,6 +3,7 @@ package ru.dsoccer1980.service;
 import org.springframework.stereotype.Service;
 import ru.dsoccer1980.domain.Author;
 import ru.dsoccer1980.repository.AuthorRepository;
+import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class AuthorActionServiceImpl implements AuthorActionService {
     public void action(String type, Long id) throws IOException {
         switch (type) {
             case "--get":
-                System.out.println(authorRepository.getById(id));
+                System.out.println(authorRepository.getById(id).orElseThrow(() -> new NotFoundException("Author not found")));
                 break;
             case "--getAll":
                 authorRepository.getAll().forEach(System.out::println);

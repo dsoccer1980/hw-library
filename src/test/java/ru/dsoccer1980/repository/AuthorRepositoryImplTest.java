@@ -2,16 +2,17 @@ package ru.dsoccer1980.repository;
 
 
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-
+import ru.dsoccer1980.domain.Author;
+import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.dsoccer1980.TestData.*;
 
 @DataJpaTest
@@ -29,19 +30,21 @@ public class AuthorRepositoryImplTest {
 
     @Test
     void getById() {
-        assertThat(authorRepository.getById(AUTHOR2.getId()).getId()).isEqualTo(AUTHOR2.getId());
+        Author author = authorRepository.getById(AUTHOR2.getId()).orElseThrow(() -> new NotFoundException("Author not found"));
+        assertThat(author.getId()).isEqualTo(AUTHOR2.getId());
     }
 
     @Test
     void getByWrongId() {
-        assertThat(authorRepository.getById(-1)).isEqualTo(null);
+        assertThrows(RuntimeException.class, () -> authorRepository.getById(-1).orElseThrow(() -> new NotFoundException("Author not found")));
     }
 
     @Test
     void insert() {
         int sizeBeforeInsert = authorRepository.getAll().size();
         authorRepository.insert(NEW_AUTHOR);
-        assertThat(authorRepository.getById(NEW_AUTHOR.getId()).getId()).isEqualTo(NEW_AUTHOR.getId());
+        Author newAuthor = authorRepository.getById(NEW_AUTHOR.getId()).orElseThrow(() -> new NotFoundException("Author not found"));
+        assertThat(newAuthor.getId()).isEqualTo(NEW_AUTHOR.getId());
         assertThat(authorRepository.getAll().size()).isEqualTo(sizeBeforeInsert + 1);
     }
 
