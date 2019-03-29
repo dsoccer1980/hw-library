@@ -57,6 +57,6 @@ public class GenreRepositoryJpa implements GenreRepository {
 
     @Override
     public Genre getByNameOrElseCreate(String name) {
-        return getByName(name).orElse(insert(new Genre(name)));
+        return getByName(name).orElseGet(() -> insert(new Genre(name)));
     }
 }

@@ -18,7 +18,7 @@ import static ru.dsoccer1980.TestData.*;
 @DataJpaTest
 @Import(GenreRepositoryJpa.class)
 @ActiveProfiles("test")
-public class GenreRepositoryJdbcTest {
+public class GenreRepositoryImplTest {
 
     @Autowired
     private GenreRepository genreRepository;
@@ -42,9 +42,8 @@ public class GenreRepositoryJdbcTest {
     @Test
     void insert() {
         int sizeBeforeInsert = genreRepository.getAll().size();
-        genreRepository.insert(NEW_GENRE);
-        Genre newGenre = genreRepository.getById(NEW_GENRE.getId()).orElseThrow(() -> new NotFoundException("Genre not found"));
-        assertThat(newGenre.getId()).isEqualTo(NEW_GENRE.getId());
+        Genre insertedGenre = genreRepository.insert(NEW_GENRE);
+        assertThat(insertedGenre.getName()).isEqualTo(NEW_GENRE.getName());
         assertThat(genreRepository.getAll().size()).isEqualTo(sizeBeforeInsert + 1);
     }
 
@@ -53,6 +52,29 @@ public class GenreRepositoryJdbcTest {
         int sizeBeforeDelete = genreRepository.getAll().size();
         genreRepository.deleteById(GENRE1.getId());
         assertThat(genreRepository.getAll().size()).isEqualTo(sizeBeforeDelete - 1);
+    }
+
+    @Test
+    void getByName() {
+        Genre author = genreRepository.getByName(GENRE1.getName()).orElseThrow(() -> new NotFoundException("Genre not found"));
+        assertThat(author.toString()).isEqualTo(GENRE1.toString());
+    }
+
+    @Test
+    void getByWrongName() {
+        assertThrows(NotFoundException.class, () -> genreRepository.getByName("Wrong name").orElseThrow(() -> new NotFoundException("Genre not found")));
+    }
+
+    @Test
+    void getByNameOrElseCreateWithNewGenre() {
+        Genre newGenre = genreRepository.getByNameOrElseCreate("New Genre");
+        assertThat(newGenre.getName()).isEqualTo("New Genre");
+    }
+
+    @Test
+    void getByNameOrElseCreateWithExistGenre() {
+        Genre existGenre = genreRepository.getByNameOrElseCreate(GENRE1.getName());
+        assertThat(existGenre.getName()).isEqualTo(GENRE1.getName());
     }
 
 

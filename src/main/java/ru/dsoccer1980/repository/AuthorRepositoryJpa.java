@@ -57,7 +57,8 @@ public class AuthorRepositoryJpa implements AuthorRepository {
 
     @Override
     public Author getByNameOrElseCreate(String name) {
-        return getByName(name).orElse(insert(new Author(name)));
+        Optional<Author> byName = getByName(name);
+        return byName.orElseGet(() -> insert(new Author(name)));
     }
 
 }

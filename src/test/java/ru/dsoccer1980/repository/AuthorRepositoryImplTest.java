@@ -55,5 +55,35 @@ public class AuthorRepositoryImplTest {
         assertThat(authorRepository.getAll().size()).isEqualTo(sizeBeforeDelete - 1);
     }
 
+    @Test
+    void deleteByWrongId() {
+        int sizeBeforeDelete = authorRepository.getAll().size();
+        authorRepository.deleteById(-1);
+        assertThat(authorRepository.getAll().size()).isEqualTo(sizeBeforeDelete);
+    }
+
+    @Test
+    void getByName() {
+        Author author = authorRepository.getByName(AUTHOR1.getName()).orElseThrow(() -> new NotFoundException("Author not found"));
+        assertThat(author.toString()).isEqualTo(AUTHOR1.toString());
+    }
+
+    @Test
+    void getByWrongName() {
+        assertThrows(NotFoundException.class, () -> authorRepository.getByName("Wrong name").orElseThrow(() -> new NotFoundException("Author not found")));
+    }
+
+    @Test
+    void getByNameOrElseCreateWithNewAuthor() {
+        Author newAuthor = authorRepository.getByNameOrElseCreate("New Author");
+        assertThat(newAuthor.getName()).isEqualTo("New Author");
+    }
+
+    @Test
+    void getByNameOrElseCreateWithExistAuthor() {
+        Author existAuthor = authorRepository.getByNameOrElseCreate(AUTHOR1.getName());
+        assertThat(existAuthor.getName()).isEqualTo(AUTHOR1.getName());
+    }
+
 
 }
