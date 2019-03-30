@@ -10,11 +10,11 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.dsoccer1980.util.ConfigurableInputStream;
+import ru.dsoccer1980.util.Util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.dsoccer1980.TestData.*;
@@ -41,26 +41,27 @@ class AuthorActionServiceImplTest {
     @Test
     void actionGet() throws IOException {
         authorActionService.action("--get", AUTHOR1.getId());
-        assertThat(getData()).isEqualTo(AUTHOR1.toString());
+        assertThat(Util.getData(out)).isEqualTo(AUTHOR1.toString());
     }
 
     @Test
     void actionGetAll() throws IOException {
         authorActionService.action("--getAll", -1L);
-        assertThat(getData()).isEqualTo((AUTHOR1.toString() + AUTHOR2 + AUTHOR3));
+        assertThat(Util.getData(out)).isEqualTo((AUTHOR1.toString() + AUTHOR2 + AUTHOR3));
     }
 
     @Test
     void actionDelete() throws IOException {
         authorActionService.action("--delete", AUTHOR1.getId());
+        out.reset();
         authorActionService.action("--getAll", -1L);
-        assertThat(getData()).isEqualTo((AUTHOR2.toString() + AUTHOR3));
+        assertThat(Util.getData(out)).isEqualTo((AUTHOR2.toString() + AUTHOR3));
     }
 
     @Test
     void actionCount() throws IOException {
         authorActionService.action("--count", -1L);
-        assertThat(getData()).isEqualTo("3");
+        assertThat(Util.getData(out)).isEqualTo("3");
     }
 
     @Test
@@ -70,10 +71,6 @@ class AuthorActionServiceImplTest {
 
         out.reset();
         authorActionService.action("--count", -1L);
-        assertThat(getData()).isEqualTo("4");
-    }
-
-    private String getData() {
-        return new String(out.toByteArray(), StandardCharsets.UTF_8).replaceAll("[\\r\\n]+", "");
+        assertThat(Util.getData(out)).isEqualTo("4");
     }
 }

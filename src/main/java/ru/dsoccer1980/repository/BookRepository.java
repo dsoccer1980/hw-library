@@ -1,16 +1,15 @@
-package ru.dsoccer1980.dao;
+package ru.dsoccer1980.repository;
 
 import ru.dsoccer1980.domain.Book;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface BookDao {
+public interface BookRepository {
 
-    Book getById(long id);
+    Optional<Book> getById(long id);
 
     void insert(Book book);
-
-    void insert(String bookName, String authorName, String genreName);
 
     List<Book> getAll();
 

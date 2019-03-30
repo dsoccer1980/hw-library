@@ -1,10 +1,24 @@
 package ru.dsoccer1980.domain;
 
+import javax.persistence.*;
+
+@Entity
 public class Book {
-    private long id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id")
     private Author author;
+    @ManyToOne
+    @JoinColumn(name = "genre_id")
     private Genre genre;
+
+    public Book() {
+    }
 
     public Book(long id, String name, Author author, Genre genre) {
         this.id = id;
@@ -13,7 +27,13 @@ public class Book {
         this.genre = genre;
     }
 
-    public long getId() {
+    public Book(String name, Author author, Genre genre) {
+        this.name = name;
+        this.author = author;
+        this.genre = genre;
+    }
+
+    public Long getId() {
         return id;
     }
 
@@ -27,6 +47,10 @@ public class Book {
 
     public Genre getGenre() {
         return genre;
+    }
+
+    public boolean hasNullId() {
+        return this.id == null;
     }
 
     @Override
