@@ -1,7 +1,6 @@
 package ru.dsoccer1980.domain;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class Book {
@@ -11,10 +10,10 @@ public class Book {
     private Long id;
     private String name;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "author_id")
     private Author author;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
