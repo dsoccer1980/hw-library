@@ -46,6 +46,13 @@ public class BookRepositoryImplTest {
     }
 
     @Test
+    void insertExistBook() {
+        int sizeBeforeInsert = bookRepository.getAll().size();
+        bookRepository.insert(BOOK1);
+        assertThat(bookRepository.getAll().size()).isEqualTo(sizeBeforeInsert);
+    }
+
+    @Test
     void deleteById() {
         int sizeBeforeDelete = bookRepository.getAll().size();
         bookRepository.deleteById(BOOK1.getId());

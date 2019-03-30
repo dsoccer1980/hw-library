@@ -49,6 +49,15 @@ public class AuthorRepositoryImplTest {
     }
 
     @Test
+    void insertExistAuthor() {
+        int sizeBeforeInsert = authorRepository.getAll().size();
+        authorRepository.insert(AUTHOR1);
+        Author getAuthor = authorRepository.getById(AUTHOR1.getId()).orElseThrow(() -> new NotFoundException("Author not found"));
+        assertThat(getAuthor.getId()).isEqualTo(AUTHOR1.getId());
+        assertThat(authorRepository.getAll().size()).isEqualTo(sizeBeforeInsert);
+    }
+
+    @Test
     void deleteById() {
         int sizeBeforeDelete = authorRepository.getAll().size();
         authorRepository.deleteById(AUTHOR2.getId());

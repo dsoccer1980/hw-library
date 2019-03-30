@@ -48,6 +48,14 @@ public class GenreRepositoryImplTest {
     }
 
     @Test
+    void insertExistGenre() {
+        int sizeBeforeInsert = genreRepository.getAll().size();
+        Genre insertedGenre = genreRepository.insert(GENRE1);
+        assertThat(insertedGenre.getName()).isEqualTo(GENRE1.getName());
+        assertThat(genreRepository.getAll().size()).isEqualTo(sizeBeforeInsert);
+    }
+
+    @Test
     void deleteById() {
         int sizeBeforeDelete = genreRepository.getAll().size();
         genreRepository.deleteById(GENRE1.getId());
