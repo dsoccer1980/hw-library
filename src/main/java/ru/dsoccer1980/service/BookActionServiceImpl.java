@@ -1,7 +1,9 @@
 package ru.dsoccer1980.service;
 
 import org.springframework.stereotype.Service;
+import ru.dsoccer1980.domain.Author;
 import ru.dsoccer1980.domain.Book;
+import ru.dsoccer1980.domain.Genre;
 import ru.dsoccer1980.repository.AuthorRepository;
 import ru.dsoccer1980.repository.BookRepository;
 import ru.dsoccer1980.repository.GenreRepository;
@@ -10,6 +12,7 @@ import ru.dsoccer1980.util.exception.NotFoundException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Optional;
 
 @Service
 public class BookActionServiceImpl implements BookActionService {
@@ -27,16 +30,16 @@ public class BookActionServiceImpl implements BookActionService {
     public void action(String type, Long id) throws IOException {
         switch (type) {
             case "--get":
-                System.out.println(bookRepository.getById(id).orElseThrow(() -> new NotFoundException("Book not found")));
+                System.out.println(bookRepository.findById(id).orElseThrow(() -> new NotFoundException("Book not found")));
                 break;
             case "--getAll":
-                bookRepository.getAll().forEach(System.out::println);
+                bookRepository.findAll().forEach(System.out::println);
                 break;
             case "--author":
-                bookRepository.getByAuthorId(id).forEach(System.out::println);
+                bookRepository.findByAuthorId(id).forEach(System.out::println);
                 break;
             case "--genre":
-                bookRepository.getByGenreId(id).forEach(System.out::println);
+                bookRepository.findByGenreId(id).forEach(System.out::println);
                 break;
             case "--delete":
                 bookRepository.deleteById(id);
@@ -47,16 +50,20 @@ public class BookActionServiceImpl implements BookActionService {
                 String bookName = reader.readLine();
                 System.out.println("Please insert book author:");
                 String authorName = reader.readLine();
+                Optional<Author> authorByName = authorRepository.findByName(authorName);
+                Author author = authorByName.orElseGet(() -> authorRepository.save(new Author(authorName)));
                 System.out.println("Please insert book genre:");
-                String geneName = reader.readLine();
-                bookRepository.insert(
+                String genreName = reader.readLine();
+                Optional<Genre> genreByName = genreRepository.findByName(genreName);
+                Genre genre = genreByName.orElseGet(() -> genreRepository.save(new Genre(genreName)));
+                bookRepository.save(
                         new Book(
                                 bookName,
-                                authorRepository.getByNameOrElseCreate(authorName),
-                                genreRepository.getByNameOrElseCreate(geneName)));
+                                author,
+                                genre));
                 break;
             case "--count":
-                System.out.println(bookRepository.getAll().size());
+                System.out.println(bookRepository.findAll().size());
         }
     }
 }

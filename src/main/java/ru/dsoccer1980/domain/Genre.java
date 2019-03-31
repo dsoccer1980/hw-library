@@ -33,10 +33,6 @@ public class Genre {
         return name;
     }
 
-    public boolean hasNullId() {
-        return this.id == null;
-    }
-
     @Override
     public String toString() {
         return "{" + id + ", '" + name + '\'' + '}';

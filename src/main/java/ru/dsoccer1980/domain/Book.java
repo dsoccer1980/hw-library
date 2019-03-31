@@ -49,10 +49,6 @@ public class Book {
         return genre;
     }
 
-    public boolean hasNullId() {
-        return this.id == null;
-    }
-
     @Override
     public String toString() {
         return "Book{" +

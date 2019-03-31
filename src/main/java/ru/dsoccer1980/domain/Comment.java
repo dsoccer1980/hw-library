@@ -25,16 +25,17 @@ public class Comment {
         this.content = content;
     }
 
+    public Comment(String content, Book book) {
+        this.content = content;
+        this.book = book;
+    }
+
     public Long getId() {
         return id;
     }
 
     public String getContent() {
         return content;
-    }
-
-    public boolean hasNullId() {
-        return this.id == null;
     }
 
     @Override

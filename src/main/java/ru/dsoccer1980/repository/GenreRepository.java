@@ -1,21 +1,29 @@
 package ru.dsoccer1980.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.dsoccer1980.domain.Genre;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface GenreRepository {
+@Repository
+@Transactional
+public interface GenreRepository extends JpaRepository<Genre, Long> {
 
-    Genre insert(Genre genre);
+    @Override
+    Genre save(Genre save);
 
-    Optional<Genre> getById(long id);
+    @Override
+    Optional<Genre> findById(Long id);
 
-    List<Genre> getAll();
+    @Override
+    List<Genre> findAll();
 
-    void deleteById(long id);
+    @Override
+    void deleteById(Long id);
 
-    Optional<Genre> getByName(String name);
+    Optional<Genre> findByName(String name);
 
-    Genre getByNameOrElseCreate(String name);
 }

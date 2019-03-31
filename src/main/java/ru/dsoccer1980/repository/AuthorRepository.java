@@ -1,22 +1,28 @@
 package ru.dsoccer1980.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.dsoccer1980.domain.Author;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface AuthorRepository {
+@Repository
+@Transactional
+public interface AuthorRepository extends JpaRepository<Author, Long> {
 
-    Author insert(Author author);
+    @Override
+    Author save(Author save);
 
-    Optional<Author> getById(long id);
+    @Override
+    Optional<Author> findById(Long id);
 
-    List<Author> getAll();
+    @Override
+    List<Author> findAll();
 
-    void deleteById(long id);
+    void deleteById(Long id);
 
-    Optional<Author> getByName(String name);
-
-    Author getByNameOrElseCreate(String name);
+    Optional<Author> findByName(String name);
 
 }
