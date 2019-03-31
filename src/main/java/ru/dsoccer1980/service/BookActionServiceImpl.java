@@ -64,6 +64,9 @@ public class BookActionServiceImpl implements BookActionService {
                 break;
             case "--count":
                 System.out.println(bookRepository.findAll().size());
+                break;
+            default:
+                throw new NotFoundException("Operation not found");
         }
     }
 }

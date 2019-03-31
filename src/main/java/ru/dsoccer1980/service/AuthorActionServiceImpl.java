@@ -37,6 +37,9 @@ public class AuthorActionServiceImpl implements AuthorActionService {
                 break;
             case "--count":
                 System.out.println(authorRepository.findAll().size());
+                break;
+            default:
+                throw new NotFoundException("Operation not found");
         }
     }
 }

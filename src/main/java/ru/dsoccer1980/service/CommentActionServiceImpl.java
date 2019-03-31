@@ -28,6 +28,8 @@ public class CommentActionServiceImpl implements CommentActionService {
             case "--get":
                 System.out.println(commentRepository.findByBookId(book_id));
                 break;
+            default:
+                throw new NotFoundException("Operation not found");
         }
 
     }

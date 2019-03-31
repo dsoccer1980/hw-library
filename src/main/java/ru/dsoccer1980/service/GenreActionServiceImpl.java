@@ -37,6 +37,9 @@ public class GenreActionServiceImpl implements GenreActionService {
                 break;
             case "--count":
                 System.out.println(genreRepository.findAll().size());
+                break;
+            default:
+                throw new NotFoundException("Operation not found");
         }
     }
 }
