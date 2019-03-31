@@ -6,22 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.dsoccer1980.domain.Book;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @Transactional
 public interface BookRepository extends JpaRepository<Book, Long> {
-
-    Optional<Book> findById(long id);
-
-    @Override
-    Book save(Book book);
-
-    @Override
-    List<Book> findAll();
-
-    @Override
-    void deleteById(Long id);
 
     List<Book> findByAuthorId(Long id);
 

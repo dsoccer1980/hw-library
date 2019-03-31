@@ -33,7 +33,7 @@ public class BookRepositoryImplTest {
 
     @Test
     void getByWrongId() {
-        assertThrows(NotFoundException.class, () -> bookRepository.findById(-1).orElseThrow(() -> new NotFoundException("Book not found")));
+        assertThrows(NotFoundException.class, () -> bookRepository.findById(-1L).orElseThrow(() -> new NotFoundException("Book not found")));
     }
 
     @Test

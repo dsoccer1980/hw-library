@@ -10,5 +10,4 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findByBookId(Long bookId);
 
-    Comment save(Comment comment);
 }
