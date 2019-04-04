@@ -55,7 +55,7 @@ class GenreActionServiceImplTest {
         genreActionService.action("--delete", GENRE1.getId());
         out.reset();
         genreActionService.action("--getAll", -1L);
-        assertThat(Util.getData(out)).isEqualTo((GENRE2.toString()));
+        assertThat(Util.getData(out)).endsWith((GENRE2.toString()));
     }
 
     @Test

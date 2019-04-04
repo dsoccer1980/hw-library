@@ -21,10 +21,10 @@ public class AuthorActionServiceImpl implements AuthorActionService {
     public void action(String type, Long id) throws IOException {
         switch (type) {
             case "--get":
-                System.out.println(authorRepository.getById(id).orElseThrow(() -> new NotFoundException("Author not found")));
+                System.out.println(authorRepository.findById(id).orElseThrow(() -> new NotFoundException("Author not found")));
                 break;
             case "--getAll":
-                authorRepository.getAll().forEach(System.out::println);
+                authorRepository.findAll().forEach(System.out::println);
                 break;
             case "--delete":
                 authorRepository.deleteById(id);
@@ -33,10 +33,13 @@ public class AuthorActionServiceImpl implements AuthorActionService {
                 System.out.println("Please insert author name:");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                 String name = reader.readLine();
-                authorRepository.insert(new Author(name));
+                authorRepository.save(new Author(name));
                 break;
             case "--count":
-                System.out.println(authorRepository.getAll().size());
+                System.out.println(authorRepository.findAll().size());
+                break;
+            default:
+                throw new NotFoundException("Operation not found");
         }
     }
 }

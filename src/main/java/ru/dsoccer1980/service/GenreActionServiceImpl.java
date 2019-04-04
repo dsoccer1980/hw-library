@@ -21,10 +21,10 @@ public class GenreActionServiceImpl implements GenreActionService {
     public void action(String type, Long id) throws IOException {
         switch (type) {
             case "--get":
-                System.out.println(genreRepository.getById(id).orElseThrow(() -> new NotFoundException("Genre not found")));
+                System.out.println(genreRepository.findById(id).orElseThrow(() -> new NotFoundException("Genre not found")));
                 break;
             case "--getAll":
-                genreRepository.getAll().forEach(System.out::println);
+                genreRepository.findAll().forEach(System.out::println);
                 break;
             case "--delete":
                 genreRepository.deleteById(id);
@@ -33,10 +33,13 @@ public class GenreActionServiceImpl implements GenreActionService {
                 System.out.println("Please insert genre name:");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                 String name = reader.readLine();
-                genreRepository.insert(new Genre(name));
+                genreRepository.save(new Genre(name));
                 break;
             case "--count":
-                System.out.println(genreRepository.getAll().size());
+                System.out.println(genreRepository.findAll().size());
+                break;
+            default:
+                throw new NotFoundException("Operation not found");
         }
     }
 }

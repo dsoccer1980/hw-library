@@ -55,7 +55,7 @@ class AuthorActionServiceImplTest {
         authorActionService.action("--delete", AUTHOR1.getId());
         out.reset();
         authorActionService.action("--getAll", -1L);
-        assertThat(Util.getData(out)).isEqualTo((AUTHOR2.toString() + AUTHOR3));
+        assertThat(Util.getData(out)).contains((AUTHOR2.toString() + AUTHOR3));
     }
 
     @Test
