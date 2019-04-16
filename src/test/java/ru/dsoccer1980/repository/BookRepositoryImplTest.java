@@ -1,5 +1,6 @@
 package ru.dsoccer1980.repository;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -13,12 +14,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.dsoccer1980.TestData.*;
 
-@DataJpaTest
-@ActiveProfiles("test")
-public class BookRepositoryImplTest {
+
+public class BookRepositoryImplTest extends AbstractRepositoryTest {
 
     @Autowired
     BookRepository bookRepository;
+
+    @BeforeEach
+    void populateData() {
+        bookRepository.deleteAll();
+        bookRepository.save(BOOK1);
+        bookRepository.save(BOOK2);
+        bookRepository.save(BOOK3);
+    }
 
     @Test
     void findAll() {
@@ -33,7 +41,7 @@ public class BookRepositoryImplTest {
 
     @Test
     void getByWrongId() {
-        assertThrows(NotFoundException.class, () -> bookRepository.findById(-1L).orElseThrow(() -> new NotFoundException("Book not found")));
+        assertThrows(NotFoundException.class, () -> bookRepository.findById("-1").orElseThrow(() -> new NotFoundException("Book not found")));
     }
 
     @Test

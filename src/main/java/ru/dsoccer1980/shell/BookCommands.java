@@ -20,7 +20,7 @@ public class BookCommands {
     @ShellMethod("actions with books")
     public void book(
             @ShellOption(defaultValue = "--getAll") String action,
-            @ShellOption(defaultValue = "-1") long id) throws IOException {
+            @ShellOption(defaultValue = "-1") String id) throws IOException {
 
         bookActionService.action(action, id);
     }

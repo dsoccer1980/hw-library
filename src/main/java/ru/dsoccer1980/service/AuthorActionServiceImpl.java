@@ -18,7 +18,7 @@ public class AuthorActionServiceImpl implements AuthorActionService {
         this.authorRepository = authorRepository;
     }
 
-    public void action(String type, Long id) throws IOException {
+    public void action(String type, String id) throws IOException {
         switch (type) {
             case "--get":
                 System.out.println(authorRepository.findById(id).orElseThrow(() -> new NotFoundException("Author not found")));
