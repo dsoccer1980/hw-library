@@ -6,10 +6,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,14 +14,10 @@ public class Book {
     @Id
     private String id;
 
-    @NotBlank
-    @Size(max = 100)
     private String name;
 
-    @NotNull
     private Author author;
 
-    @NotNull
     private Genre genre;
 
     public Book(String name, Author author, Genre genre) {

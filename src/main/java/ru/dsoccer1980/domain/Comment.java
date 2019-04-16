@@ -6,10 +6,6 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 @NoArgsConstructor
 @Document
 public class Comment {
@@ -17,13 +13,10 @@ public class Comment {
     @Getter
     private String id;
 
-    @NotBlank
-    @Size(min = 2, max = 150)
     @Getter
     private String content;
 
     @Setter
-    @NotNull
     private Book book;
 
     public Comment(String id, String content) {

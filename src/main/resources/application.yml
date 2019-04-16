@@ -5,4 +5,4 @@ spring:
       database: proddb
   shell:
     interactive:
-      enabled: false
+      enabled: true
