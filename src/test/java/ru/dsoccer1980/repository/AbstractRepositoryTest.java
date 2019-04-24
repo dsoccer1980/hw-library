@@ -8,6 +8,6 @@ import org.springframework.test.context.ActiveProfiles;
 @DataMongoTest
 @ActiveProfiles("test")
 @EnableConfigurationProperties
-@ComponentScan("ru.dsoccer1980.repository")
+@ComponentScan({"ru.dsoccer1980.repository", "ru.dsoccer1980.events"})
 public class AbstractRepositoryTest {
 }

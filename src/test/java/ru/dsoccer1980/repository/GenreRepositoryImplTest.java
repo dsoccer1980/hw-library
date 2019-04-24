@@ -67,7 +67,7 @@ public class GenreRepositoryImplTest extends AbstractRepositoryTest {
     @Test
     void deleteByWrongId() {
         int sizeBeforeDelete = genreRepository.findAll().size();
-        genreRepository.deleteById("-1");
+        genreRepository.deleteById("123456789012345678901234");
         assertThat(genreRepository.findAll().size()).isEqualTo(sizeBeforeDelete);
     }
 

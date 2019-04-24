@@ -4,7 +4,9 @@ package ru.dsoccer1980.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.dsoccer1980.repository.AuthorRepository;
 import ru.dsoccer1980.repository.BookRepository;
+import ru.dsoccer1980.repository.GenreRepository;
 import ru.dsoccer1980.util.ConfigurableInputStream;
 import ru.dsoccer1980.util.Util;
 
@@ -20,6 +22,10 @@ class BookActionServiceImplTest extends AbstractServiceTest {
     @Autowired
     BookRepository bookRepository;
     @Autowired
+    AuthorRepository authorRepository;
+    @Autowired
+    GenreRepository genreRepository;
+    @Autowired
     private BookActionService bookActionService;
     private ByteArrayOutputStream out;
     private ConfigurableInputStream in;
@@ -32,6 +38,19 @@ class BookActionServiceImplTest extends AbstractServiceTest {
         System.setIn(in);
 
         bookRepository.deleteAll();
+        authorRepository.deleteAll();
+        genreRepository.deleteAll();
+        authorRepository.save(AUTHOR1);
+        authorRepository.save(AUTHOR2);
+        authorRepository.save(AUTHOR3);
+        genreRepository.save(GENRE1);
+        genreRepository.save(GENRE2);
+        BOOK1.setAuthor(AUTHOR1);
+        BOOK2.setAuthor(AUTHOR2);
+        BOOK3.setAuthor(AUTHOR3);
+        BOOK1.setGenre(GENRE1);
+        BOOK2.setGenre(GENRE1);
+        BOOK3.setGenre(GENRE2);
         bookRepository.save(BOOK1);
         bookRepository.save(BOOK2);
         bookRepository.save(BOOK3);

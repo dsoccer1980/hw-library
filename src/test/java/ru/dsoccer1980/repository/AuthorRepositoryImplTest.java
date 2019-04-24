@@ -71,7 +71,7 @@ public class AuthorRepositoryImplTest extends AbstractRepositoryTest {
     @Test
     void deleteByWrongId() {
         int sizeBeforeDelete = authorRepository.findAll().size();
-        authorRepository.deleteById("-1");
+        authorRepository.deleteById("123456789012345678901234");
         assertThat(authorRepository.findAll().size()).isEqualTo(sizeBeforeDelete);
     }
 
