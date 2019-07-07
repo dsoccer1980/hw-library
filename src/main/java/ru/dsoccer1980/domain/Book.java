@@ -3,38 +3,24 @@ package ru.dsoccer1980.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Document
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "name")
-    @NotBlank
-    @Size(max = 100)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
+    @DBRef
     private Author author;
 
-    @ManyToOne
-    @JoinColumn(name = "genre_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
+    @DBRef
     private Genre genre;
 
     public Book(String name, Author author, Genre genre) {

@@ -1,11 +1,9 @@
 package ru.dsoccer1980.repository;
 
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.test.context.ActiveProfiles;
 import ru.dsoccer1980.domain.Author;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
@@ -15,12 +13,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.dsoccer1980.TestData.*;
 
-@DataJpaTest
-@ActiveProfiles("test")
-public class AuthorRepositoryImplTest {
+
+public class AuthorRepositoryImplTest extends AbstractRepositoryTest {
 
     @Autowired
     private AuthorRepository authorRepository;
+
+    @BeforeEach
+    void populate() {
+        authorRepository.deleteAll();
+        authorRepository.save(AUTHOR1);
+        authorRepository.save(AUTHOR2);
+        authorRepository.save(AUTHOR3);
+    }
 
     @Test
     void findAll() {
@@ -35,7 +40,7 @@ public class AuthorRepositoryImplTest {
 
     @Test
     void getByWrongId() {
-        assertThrows(NotFoundException.class, () -> authorRepository.findById(-1L).orElseThrow(() -> new NotFoundException("Author not found")));
+        assertThrows(NotFoundException.class, () -> authorRepository.findById("-1").orElseThrow(() -> new NotFoundException("Author not found")));
     }
 
     @Test
@@ -65,7 +70,9 @@ public class AuthorRepositoryImplTest {
 
     @Test
     void deleteByWrongId() {
-        assertThrows(EmptyResultDataAccessException.class, () -> authorRepository.deleteById(-1L));
+        int sizeBeforeDelete = authorRepository.findAll().size();
+        authorRepository.deleteById("123456789012345678901234");
+        assertThat(authorRepository.findAll().size()).isEqualTo(sizeBeforeDelete);
     }
 
     @Test

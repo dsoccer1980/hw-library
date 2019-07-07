@@ -27,7 +27,7 @@ public class BookActionServiceImpl implements BookActionService {
         this.genreRepository = genreRepository;
     }
 
-    public void action(String type, Long id) throws IOException {
+    public void action(String type, String id) throws IOException {
         switch (type) {
             case "--get":
                 System.out.println(bookRepository.findById(id).orElseThrow(() -> new NotFoundException("Book not found")));

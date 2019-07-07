@@ -1,24 +1,97 @@
 package ru.dsoccer1980.repository;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ActiveProfiles;
+import ru.dsoccer1980.domain.Author;
 import ru.dsoccer1980.domain.Book;
+import ru.dsoccer1980.domain.Genre;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.dsoccer1980.TestData.*;
 
-@DataJpaTest
-@ActiveProfiles("test")
-public class BookRepositoryImplTest {
+
+public class BookRepositoryImplTest extends AbstractRepositoryTest {
 
     @Autowired
     BookRepository bookRepository;
+    @Autowired
+    AuthorRepository authorRepository;
+    @Autowired
+    GenreRepository genreRepository;
+
+    @BeforeEach
+    void populateData() {
+        bookRepository.deleteAll();
+        authorRepository.deleteAll();
+        genreRepository.deleteAll();
+        authorRepository.save(AUTHOR1);
+        authorRepository.save(AUTHOR2);
+        authorRepository.save(AUTHOR3);
+        genreRepository.save(GENRE1);
+        genreRepository.save(GENRE2);
+        BOOK1.setAuthor(AUTHOR1);
+        BOOK2.setAuthor(AUTHOR2);
+        BOOK3.setAuthor(AUTHOR3);
+        BOOK1.setGenre(GENRE1);
+        BOOK2.setGenre(GENRE1);
+        BOOK3.setGenre(GENRE2);
+        bookRepository.save(BOOK1);
+        bookRepository.save(BOOK2);
+        bookRepository.save(BOOK3);
+    }
+
+    @Test
+    @DisplayName("При удалении автора он должен удалиться из книги")
+    void deleteAuthor() {
+        bookRepository.deleteAll();
+        authorRepository.deleteAll();
+
+        Author newAuthor = authorRepository.save(new Author("new author"));
+        Genre newGenre = genreRepository.save(new Genre("new genre"));
+
+        bookRepository.save(new Book("new Book", newAuthor, newGenre));
+
+        Book book = bookRepository.findAll().get(0);
+        Author author = authorRepository.findAll().get(0);
+        assertThat(book.getAuthor().getId()).isEqualTo(author.getId());
+
+        authorRepository.deleteById(author.getId());
+
+        Optional<Book> byId = bookRepository.findById(book.getId());
+
+        assertThat(authorRepository.findAll().size()).isEqualTo(0);
+        assertThat(byId.get().getAuthor()).isEqualTo(null);
+    }
+
+    @Test
+    @DisplayName("При удалении жанра он должен удалиться из книги")
+    void deleteGenre() {
+        bookRepository.deleteAll();
+        genreRepository.deleteAll();
+
+        Author newAuthor = authorRepository.save(new Author("new author"));
+        Genre newGenre = genreRepository.save(new Genre("new genre"));
+
+        bookRepository.save(new Book("new Book", newAuthor, newGenre));
+
+        Book book = bookRepository.findAll().get(0);
+        Genre genre = genreRepository.findAll().get(0);
+        assertThat(book.getGenre().getId()).isEqualTo(genre.getId());
+
+        genreRepository.deleteById(genre.getId());
+
+        Optional<Book> byId = bookRepository.findById(book.getId());
+
+        assertThat(genreRepository.findAll().size()).isEqualTo(0);
+        assertThat(byId.get().getGenre()).isEqualTo(null);
+    }
 
     @Test
     void findAll() {
@@ -33,7 +106,7 @@ public class BookRepositoryImplTest {
 
     @Test
     void getByWrongId() {
-        assertThrows(NotFoundException.class, () -> bookRepository.findById(-1L).orElseThrow(() -> new NotFoundException("Book not found")));
+        assertThrows(NotFoundException.class, () -> bookRepository.findById("-1").orElseThrow(() -> new NotFoundException("Book not found")));
     }
 
     @Test

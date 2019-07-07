@@ -1,17 +1,14 @@
 package ru.dsoccer1980.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import ru.dsoccer1980.domain.Book;
 
 import java.util.List;
 
-@Repository
-@Transactional
-public interface BookRepository extends JpaRepository<Book, Long> {
 
-    List<Book> findByAuthorId(Long id);
+public interface BookRepository extends MongoRepository<Book, String>, BookRepositoryCustom {
 
-    List<Book> findByGenreId(Long id);
+    List<Book> findByAuthorId(String id);
+
+    List<Book> findByGenreId(String id);
 }

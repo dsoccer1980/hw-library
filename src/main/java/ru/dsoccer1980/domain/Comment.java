@@ -3,33 +3,23 @@ package ru.dsoccer1980.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @NoArgsConstructor
-@Entity
+@Document
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
-    private Long id;
+    private String id;
 
-    @Column(name = "content")
-    @NotBlank
-    @Size(min = 2, max = 150)
     @Getter
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
     @Setter
-    @NotNull
     private Book book;
 
-    public Comment(long id, String content) {
+    public Comment(String id, String content) {
         this.id = id;
         this.content = content;
     }

@@ -19,7 +19,7 @@ public class CommentActionServiceImpl implements CommentActionService {
     }
 
     @Override
-    public void action(String type, String content, Long book_id) {
+    public void action(String type, String content, String book_id) {
         switch (type) {
             case "--insert":
                 Book book = bookRepository.findById(book_id).orElseThrow(() -> new NotFoundException("Book not found"));

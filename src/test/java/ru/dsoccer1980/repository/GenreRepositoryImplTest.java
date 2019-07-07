@@ -1,10 +1,8 @@
 package ru.dsoccer1980.repository;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.test.context.ActiveProfiles;
 import ru.dsoccer1980.domain.Genre;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
@@ -15,12 +13,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.dsoccer1980.TestData.*;
 
 
-@DataJpaTest
-@ActiveProfiles("test")
-public class GenreRepositoryImplTest {
+public class GenreRepositoryImplTest extends AbstractRepositoryTest {
 
     @Autowired
     private GenreRepository genreRepository;
+
+    @BeforeEach
+    void populateData() {
+        genreRepository.deleteAll();
+        genreRepository.save(GENRE1);
+        genreRepository.save(GENRE2);
+    }
 
     @Test
     void getAll() {
@@ -35,7 +38,7 @@ public class GenreRepositoryImplTest {
 
     @Test
     void getByWrongId() {
-        assertThrows(NotFoundException.class, () -> genreRepository.findById(-1L).orElseThrow(() -> new NotFoundException("Genre not found")));
+        assertThrows(NotFoundException.class, () -> genreRepository.findById("-1").orElseThrow(() -> new NotFoundException("Genre not found")));
     }
 
     @Test
@@ -63,7 +66,9 @@ public class GenreRepositoryImplTest {
 
     @Test
     void deleteByWrongId() {
-        assertThrows(EmptyResultDataAccessException.class, () -> genreRepository.deleteById(-1L));
+        int sizeBeforeDelete = genreRepository.findAll().size();
+        genreRepository.deleteById("123456789012345678901234");
+        assertThat(genreRepository.findAll().size()).isEqualTo(sizeBeforeDelete);
     }
 
     @Test

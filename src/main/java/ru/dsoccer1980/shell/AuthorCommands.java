@@ -20,7 +20,7 @@ public class AuthorCommands {
     @ShellMethod("actions with authors")
     public void author(
             @ShellOption(defaultValue = "--getAll") String action,
-            @ShellOption(defaultValue = "-1") long id) throws IOException {
+            @ShellOption(defaultValue = "-1") String id) throws IOException {
 
         authorActionService.action(action, id);
     }

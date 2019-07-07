@@ -21,7 +21,7 @@ public class CommentCommands {
     public void comment(
             @ShellOption String action,
             @ShellOption(defaultValue = "") String content,
-            @ShellOption Long book_id) throws IOException {
+            @ShellOption String book_id) throws IOException {
 
         commentActionService.action(action, content, book_id);
     }
